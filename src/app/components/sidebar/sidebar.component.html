@@ -1,0 +1,55 @@
+<div class="sidebar-overlay" [class.show]="sidebarService.isSidebarOpen()" (click)="closeSidebar()"></div>
+<nav class="sidebar" [class.open]="sidebarService.isSidebarOpen()">
+    <div class="logo">
+        <div class="logo-icon">
+            <img src="/public/images/logo.png" alt="">
+            <lucide-icon name="indian-rupee" size="20"></lucide-icon>
+        </div>
+        <h2>EXPENSIO</h2>
+    </div>
+
+    <div class="user-profile">
+        <div class="avatar">
+            @if (userService.currentUserProfile()?.profileImage) {
+            <img [src]="userService.currentUserProfile()?.profileImage" alt="User Profile">
+            } @else {
+            <span class="avatar-placeholder">👤</span>
+            }
+        </div>
+        <h3>{{ userService.currentUserProfile()?.fullName || 'User' }}</h3>
+    </div>
+
+    <ul class="nav-links">
+        <li>
+            <a routerLink="/dashboard" routerLinkActive="active" class="nav-item">
+                <lucide-icon name="layout-dashboard" size="20"></lucide-icon>
+                <span>Dashboard</span>
+            </a>
+        </li>
+        <li>
+            <a routerLink="/transactions" routerLinkActive="active" class="nav-item">
+                <lucide-icon name="arrow-left-right" size="20"></lucide-icon>
+                <span>Transactions</span>
+            </a>
+        </li>
+        <li>
+            <a routerLink="/summary" routerLinkActive="active" class="nav-item">
+                <lucide-icon name="pie-chart" size="20"></lucide-icon>
+                <span>Summary</span>
+            </a>
+        </li>
+        <li>
+            <a routerLink="/payment-modes" routerLinkActive="active" class="nav-item">
+                <lucide-icon name="credit-card" size="20"></lucide-icon>
+                <span>Payment Modes</span>
+            </a>
+        </li>
+
+        <li>
+            <a routerLink="/about" routerLinkActive="active" class="nav-item">
+                <lucide-icon name="info" size="20"></lucide-icon>
+                <span>About</span>
+            </a>
+        </li>
+    </ul>
+</nav>

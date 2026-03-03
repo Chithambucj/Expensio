@@ -1,0 +1,413 @@
+<div class="layout-wrapper animate-fade-in">
+    <!-- Main Content -->
+    <main class="transactions-main">
+        <div class="top-nav-info">
+            <span class="breadcrumb">All Transactions</span>
+        </div>
+
+        <div class="controls-bar">
+            <div class="search-box">
+                <lucide-icon name="search" size="18" class="search-icon"></lucide-icon>
+                <input type="text" [ngModel]="searchTerm()" (ngModelChange)="searchTerm.set($event)"
+                    placeholder="Search">
+                <button class="btn-filter-trigger" (click)="toggleFilterPopup()">
+                    <lucide-icon name="sliders-horizontal" size="16"></lucide-icon>
+                    <span>Filters</span>
+                </button>
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <input type="file" #fileInput style="display: none" accept=".xlsx, .xls, .csv"
+                    (change)="onFileUpload($event)">
+                <button class="btn btn-outline" style="border-radius: 16px; font-weight: 500; font-size: 13px;"
+                    (click)="triggerFileInput()">
+                    <lucide-icon name="upload" size="16" style="margin-right: 6px;"></lucide-icon>
+                    UPLOAD EXCEL
+                </button>
+                <button class="btn btn-add" (click)="openModal()">ADD TRANSACTION</button>
+            </div>
+        </div>
+
+        <div class="action-bar" *ngIf="selectedTxIds().length > 0">
+            <div class="selection-info">
+                <span>{{selectedTxIds().length}} item(s) selected</span>
+            </div>
+            <div class="action-buttons">
+                <button class="action-btn" (click)="deleteSelected()">
+                    <lucide-icon name="trash-2" size="16"></lucide-icon>
+                    Delete
+                </button>
+            </div>
+        </div>
+
+        <div class="table-container shadow-sm">
+            <table class="tx-table">
+                <thead>
+                    <tr>
+                        <th style="width: 50px;">
+                            <label class="custom-checkbox-container">
+                                <input type="checkbox" [checked]="isAllSelected()"
+                                    (change)="toggleAll($any($event.target).checked)">
+                                <span class="checkmark dashed"></span>
+                            </label>
+                        </th>
+                        <th (click)="toggleSort('date')" class="sortable-header">
+                            <div class="header-content">
+                                <span>Date</span>
+                                <div class="sort-icon-wrapper">
+                                    <lucide-icon name="chevron-up" size="14"
+                                        *ngIf="sortColumn() === 'date' && sortDirection() === 'asc'"></lucide-icon>
+                                    <lucide-icon name="chevron-down" size="14"
+                                        *ngIf="sortColumn() === 'date' && sortDirection() === 'desc'"></lucide-icon>
+                                </div>
+                            </div>
+                        </th>
+                        <th (click)="toggleSort('category')" class="sortable-header">
+                            <div class="header-content">
+                                <span>Category</span>
+                                <div class="sort-icon-wrapper">
+                                    <lucide-icon name="chevron-up" size="14"
+                                        *ngIf="sortColumn() === 'category' && sortDirection() === 'asc'"></lucide-icon>
+                                    <lucide-icon name="chevron-down" size="14"
+                                        *ngIf="sortColumn() === 'category' && sortDirection() === 'desc'"></lucide-icon>
+                                </div>
+                            </div>
+                        </th>
+                        <th (click)="toggleSort('subCategory')" class="sortable-header">
+                            <div class="header-content">
+                                <span>Sub Category</span>
+                                <div class="sort-icon-wrapper">
+                                    <lucide-icon name="chevron-up" size="14"
+                                        *ngIf="sortColumn() === 'subCategory' && sortDirection() === 'asc'"></lucide-icon>
+                                    <lucide-icon name="chevron-down" size="14"
+                                        *ngIf="sortColumn() === 'subCategory' && sortDirection() === 'desc'"></lucide-icon>
+                                </div>
+                            </div>
+                        </th>
+                        <th (click)="toggleSort('categoryDetail')" class="sortable-header">
+                            <div class="header-content">
+                                <span>Category Detail</span>
+                                <div class="sort-icon-wrapper">
+                                    <lucide-icon name="chevron-up" size="14"
+                                        *ngIf="sortColumn() === 'categoryDetail' && sortDirection() === 'asc'"></lucide-icon>
+                                    <lucide-icon name="chevron-down" size="14"
+                                        *ngIf="sortColumn() === 'categoryDetail' && sortDirection() === 'desc'"></lucide-icon>
+                                </div>
+                            </div>
+                        </th>
+                        <th (click)="toggleSort('descriptionDetail')" class="sortable-header">
+                            <div class="header-content">
+                                <span>Description Detail</span>
+                                <div class="sort-icon-wrapper">
+                                    <lucide-icon name="chevron-up" size="14"
+                                        *ngIf="sortColumn() === 'descriptionDetail' && sortDirection() === 'asc'"></lucide-icon>
+                                    <lucide-icon name="chevron-down" size="14"
+                                        *ngIf="sortColumn() === 'descriptionDetail' && sortDirection() === 'desc'"></lucide-icon>
+                                </div>
+                            </div>
+                        </th>
+                        <th (click)="toggleSort('paymentMode')" class="sortable-header">
+                            <div class="header-content">
+                                <span>Pmt Mode</span>
+                                <div class="sort-icon-wrapper">
+                                    <lucide-icon name="chevron-up" size="14"
+                                        *ngIf="sortColumn() === 'paymentMode' && sortDirection() === 'asc'"></lucide-icon>
+                                    <lucide-icon name="chevron-down" size="14"
+                                        *ngIf="sortColumn() === 'paymentMode' && sortDirection() === 'desc'"></lucide-icon>
+                                </div>
+                            </div>
+                        </th>
+                        <th (click)="toggleSort('amount')" class="sortable-header">
+                            <div class="header-content">
+                                <span>Amount</span>
+                                <div class="sort-icon-wrapper">
+                                    <lucide-icon name="chevron-up" size="14"
+                                        *ngIf="sortColumn() === 'amount' && sortDirection() === 'asc'"></lucide-icon>
+                                    <lucide-icon name="chevron-down" size="14"
+                                        *ngIf="sortColumn() === 'amount' && sortDirection() === 'desc'"></lucide-icon>
+                                </div>
+                            </div>
+                        </th>
+                        <th style="width: 80px;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let t of paginatedTransactions()" class="tx-row" [class.selected]="isRowSelected(t.id)">
+                        <td>
+                            <label class="custom-checkbox-container">
+                                <input type="checkbox" [checked]="isRowSelected(t.id)" (change)="toggleSelection(t.id)">
+                                <span class="checkmark"></span>
+                            </label>
+                        </td>
+                        <td class="text-dim">{{t.date | date:'dd/MM/yyyy'}}</td>
+                        <td>
+                            <span class="cat-name">{{t.category}}</span>
+                        </td>
+                        <td class="text-dim">{{t.subCategory}}</td>
+                        <td class="text-dim">{{t.categoryDetail}}</td>
+                        <td class="text-dark font-medium">{{t.descriptionDetail}}</td>
+                        <td class="text-dim">{{t.paymentMode}}</td>
+                        <td class="font-bold text-danger">
+                            {{ '₹ ' }}{{ (t.amount < 0 ? -t.amount : t.amount) | number:'1.2-2' }} </td>
+                        <td class="action-cell">
+                            <button class="btn-icon-edit" (click)="openEditModal(t)" title="Edit Transaction">
+                                <lucide-icon name="pencil" size="16"></lucide-icon>
+                            </button>
+                            <button class="btn-icon-delete" (click)="delete(t.id)" title="Delete Transaction">
+                                <lucide-icon name="trash-2" size="16"></lucide-icon>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr *ngIf="filteredTransactions().length === 0">
+                        <td colspan="8" class="text-center py-5 no-data">No transactions found matching filters.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="pagination-footer">
+                <div class="pagination-controls">
+                    <button class="page-nav-btn" [disabled]="currentPage() === 1" (click)="changePage(1)">
+                        <lucide-icon name="chevrons-left" size="14"></lucide-icon>
+                    </button>
+                    <button class="page-nav-btn" [disabled]="currentPage() === 1"
+                        (click)="changePage(currentPage() - 1)">
+                        <lucide-icon name="chevron-left" size="14"></lucide-icon>
+                    </button>
+
+                    <div class="page-numbers">
+                        <ng-container *ngFor="let page of [].constructor(totalPages()); let i = index">
+                            <button class="page-num" [class.active]="currentPage() === i + 1"
+                                (click)="changePage(i + 1)" *ngIf="i < 10">{{i + 1}}</button>
+                        </ng-container>
+                        <span *ngIf="totalPages() > 10">...</span>
+                    </div>
+
+                    <button class="page-nav-btn" [disabled]="currentPage() === totalPages()"
+                        (click)="changePage(currentPage() + 1)">
+                        <lucide-icon name="chevron-right" size="14"></lucide-icon>
+                    </button>
+                    <button class="page-nav-btn" [disabled]="currentPage() === totalPages()"
+                        (click)="changePage(totalPages())">
+                        <lucide-icon name="chevrons-right" size="14"></lucide-icon>
+                    </button>
+                </div>
+
+                <div class="pagination-info">
+                    1 of {{totalPages()}} pages ({{filteredTransactions().length}} items)
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Sidebar Filters Popup -->
+    <div class="filter-overlay" *ngIf="isFilterOpen()" (click)="closeFilterPopup()">
+        <aside class="filters-sidebar" (click)="$event.stopPropagation()">
+            <div class="sidebar-header">
+                <h3>Filters</h3>
+                <button class="close-btn" (click)="closeFilterPopup()">
+                    <lucide-icon name="x" size="24"></lucide-icon>
+                </button>
+            </div>
+
+            <div class="filter-body-scroll">
+                <div class="filter-section">
+                    <label class="section-label">CATEGORIES</label>
+                    <div class="checkbox-list">
+                        <label *ngFor="let cat of categories" class="checkbox-label">
+                            <input type="checkbox" [checked]="isFilterSelected(selectedCategoryFilters, cat)"
+                                (change)="toggleFilter(selectedCategoryFilters, cat)">
+                            <span class="box-circle blue"></span>
+                            <span class="label-text">{{cat}}</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <label class="section-label">CASHFLOW</label>
+                    <div class="checkbox-row-compact">
+                        <label class="checkbox-label">
+                            <input type="checkbox" [checked]="isFilterSelected(selectedTypeFilters, 'expense')"
+                                (change)="toggleFilter(selectedTypeFilters, 'expense')">
+                            <span class="box-circle red"></span>
+                            <span class="label-text">Expense</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <label class="section-label">PAYMENT MODE</label>
+                    <div class="checkbox-list">
+                        <label class="checkbox-label" *ngFor="let mode of paymentModes()">
+                            <input type="checkbox" [checked]="isFilterSelected(selectedPaymentFilters, mode)"
+                                (change)="toggleFilter(selectedPaymentFilters, mode)">
+                            <span class="box-circle orange"></span>
+                            <span class="label-text">{{mode}}</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <label class="section-label">AMOUNT</label>
+                    <div class="amount-range-grid">
+                        <div class="field">
+                            <span class="field-label">MIN :</span>
+                            <input type="number" [ngModel]="minAmount()" (ngModelChange)="minAmount.set($event)"
+                                placeholder="" class="amount-input-box">
+                        </div>
+                        <div class="field">
+                            <span class="field-label">MAX :</span>
+                            <input type="number" [ngModel]="maxAmount()" (ngModelChange)="maxAmount.set($event)"
+                                placeholder="" class="amount-input-box">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="filter-footer">
+                <button class="btn btn-apply-filters" (click)="closeFilterPopup()">Apply Filters</button>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Landscape Modal -->
+    <div class="modal-overlay" *ngIf="isModalOpen" (click)="closeModal()">
+        <div class="modal-content landscape" (click)="$event.stopPropagation()">
+            <div class="modal-header">
+                <h3>{{ isEditMode ? 'Edit Transaction' : 'New Transaction' }}</h3>
+                <button class="close-btn" (click)="closeModal()"><lucide-icon name="x" size="20"></lucide-icon></button>
+            </div>
+
+            <div class="modal-body">
+                <!-- Quick Search Combo -->
+                <div class="form-group combo-group mb-4" style="margin-bottom: 25px;">
+                    <label>Search & Combo</label>
+                    <div class="combo-wrapper">
+                        <lucide-icon name="search" size="16" class="combo-icon"></lucide-icon>
+                        <input type="text" [(ngModel)]="comboSearchTerm" (input)="onComboInput()" (focus)="openCombo()"
+                            (blur)="closeCombo()" autocomplete="off" class="form-input with-icon"
+                            placeholder="Search across Category, Sub Category, or Detail to auto-fill the fields below...">
+                        <div class="combo-dropdown custom-scrollbar shadow-lg"
+                            *ngIf="showCombo && filteredComboOptions.length > 0">
+                            <div class="combo-item" *ngFor="let opt of filteredComboOptions"
+                                (mousedown)="selectComboOption(opt)">
+                                <span class="c-cat" [class.fw-bold]="!opt.subCategory">{{opt.category}}</span>
+                                <ng-container *ngIf="opt.subCategory">
+                                    <lucide-icon name="chevron-right" size="12" class="c-sep"></lucide-icon>
+                                    <span class="c-sub"
+                                        [class.fw-bold]="opt.subCategory && !opt.categoryDetail">{{opt.subCategory}}</span>
+                                </ng-container>
+                                <ng-container *ngIf="opt.categoryDetail">
+                                    <lucide-icon name="chevron-right" size="12" class="c-sep"></lucide-icon>
+                                    <span class="c-det fw-bold">{{opt.categoryDetail}}</span>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <!-- Column 1 -->
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label>Choose a Date</label>
+                            <input type="text" ngxDaterangepickerMd [(ngModel)]="newTx.date" [singleDatePicker]="true"
+                                [autoApply]="true" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label>Choose a Time</label>
+                            <input type="time" [(ngModel)]="newTx.time" class="form-input">
+                        </div>
+                        <div class="form-group combo-group">
+                            <label>Select Category</label>
+                            <div class="combo-wrapper">
+                                <input type="text" [(ngModel)]="newTx.category" (input)="onCategoryInput()"
+                                    (focus)="openCategoryDropdown()" (blur)="closeCategoryDropdown()" autocomplete="off"
+                                    class="form-input" placeholder="Type or select a category">
+                                <div class="combo-dropdown custom-scrollbar shadow-lg"
+                                    *ngIf="showCategoryDropdown && filteredCategoriesList.length > 0">
+                                    <div class="combo-item" *ngFor="let c of filteredCategoriesList"
+                                        (mousedown)="selectCategory(c)">
+                                        <span>{{c}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Column 2 -->
+                    <div class="form-col">
+                        <div class="form-group combo-group">
+                            <label>Sub Category</label>
+                            <div class="combo-wrapper">
+                                <input type="text" [(ngModel)]="newTx.subCategory" (input)="onSubCategoryInput()"
+                                    (focus)="openSubCategoryDropdown()" (blur)="closeSubCategoryDropdown()"
+                                    autocomplete="off" class="form-input" placeholder="e.g. Vegetables">
+                                <div class="combo-dropdown custom-scrollbar shadow-lg"
+                                    *ngIf="showSubCategoryDropdown && filteredSubCategoriesList.length > 0">
+                                    <div class="combo-item" *ngFor="let sub of filteredSubCategoriesList"
+                                        (mousedown)="selectSubCategory(sub)">
+                                        <span>{{sub}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group combo-group">
+                            <label>Category Detail</label>
+                            <div class="combo-wrapper">
+                                <input type="text" [(ngModel)]="newTx.categoryDetail" (input)="onCategoryDetailInput()"
+                                    (focus)="openCategoryDetailDropdown()" (blur)="closeCategoryDetailDropdown()"
+                                    autocomplete="off" class="form-input" placeholder="e.g. Weekly">
+                                <div class="combo-dropdown custom-scrollbar shadow-lg"
+                                    *ngIf="showCategoryDetailDropdown && filteredCategoryDetailsList.length > 0">
+                                    <div class="combo-item" *ngFor="let det of filteredCategoryDetailsList"
+                                        (mousedown)="selectCategoryDetail(det)">
+                                        <span>{{det}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Description Detail</label>
+                            <input type="text" [(ngModel)]="newTx.descriptionDetail" class="form-input"
+                                placeholder="e.g. Supermarket">
+                        </div>
+                    </div>
+
+                    <!-- Column 3 -->
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label>Description</label>
+                            <input type="text" [(ngModel)]="newTx.description" class="form-input"
+                                placeholder="e.g. Palmetto Cheese">
+                        </div>
+                        <div class="form-group">
+                            <label>Amount</label>
+                            <input type="number" [(ngModel)]="newTx.amount" class="form-input" placeholder="0.00">
+                        </div>
+                        <div class="form-group combo-group">
+                            <label>Payment Mode</label>
+                            <div class="combo-wrapper">
+                                <input type="text" [(ngModel)]="newTx.paymentMode" (input)="onPaymentModeInput()"
+                                    (focus)="openPaymentModeDropdown()" (blur)="closePaymentModeDropdown()"
+                                    autocomplete="off" class="form-input" placeholder="Select payment mode...">
+                                <div class="combo-dropdown custom-scrollbar shadow-lg"
+                                    *ngIf="showPaymentModeDropdown && filteredPaymentModesList.length > 0">
+                                    <div class="combo-item" *ngFor="let mode of filteredPaymentModesList"
+                                        (mousedown)="selectPaymentMode(mode)">
+                                        <span>{{mode}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-outline" (click)="closeModal()">CANCEL</button>
+                <button class="btn btn-primary" (click)="onSubmit()">
+                    {{ isEditMode ? 'SAVE CHANGES' : 'ADD TRANSACTION' }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

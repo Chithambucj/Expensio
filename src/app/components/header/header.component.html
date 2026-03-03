@@ -1,0 +1,120 @@
+<header class="header">
+    <div class="header-content">
+        <div class="header-left">
+            <button class="mobile-menu-btn" (click)="toggleMobileNav()" aria-label="Toggle menu"
+                [class.is-active]="isMobileNavOpen()">
+                <!-- Custom thick rounded menu icon matching the design -->
+                <svg class="hamburger-svg" width="22" height="22" viewBox="0 0 24 24" fill="none" class="menu-svg">
+                    <path class="line top" d="M3 6h18" stroke="currentColor" stroke-width="3.5"
+                        stroke-linecap="round" />
+                    <path class="line middle" d="M3 12h18" stroke="currentColor" stroke-width="3.5"
+                        stroke-linecap="round" />
+                    <path class="line bottom" d="M3 18h18" stroke="currentColor" stroke-width="3.5"
+                        stroke-linecap="round" />
+                </svg>
+            </button>
+            <h2 class="app-title-mobile">EXPENSIO</h2>
+        </div>
+
+        <div class="header-right">
+            <!-- Theme Toggle -->
+            <!-- Theme Menu -->
+            <div class="theme-menu-wrapper">
+                <button class="theme-toggle" (click)="toggleThemeMenu()" [attr.aria-expanded]="isThemeMenuOpen()"
+                    aria-label="Select theme" title="Change theme">
+                    <span class="theme-icon">🎨</span>
+                </button>
+
+                @if (isThemeMenuOpen()) {
+                <div class="theme-dropdown" role="menu">
+                    <div class="theme-grid">
+                        @for (key of themeKeys; track key) {
+                        <button class="theme-option" (click)="setTheme(key)"
+                            [class.active]="currentTheme() === getTheme(key).type" [attr.title]="getTheme(key).name">
+                            <div class="color-preview" [style.background]="getTheme(key).colors.surface"
+                                [style.border-color]="getTheme(key).colors.border">
+                                <div class="color-accent" [style.background]="getTheme(key).colors.primaryLight"></div>
+                            </div>
+                            <span class="theme-name">{{ getTheme(key).name }}</span>
+                            @if (currentTheme() === getTheme(key).type) {
+                            <span class="active-indicator">✓</span>
+                            }
+                        </button>
+                        }
+                    </div>
+                </div>
+                }
+            </div>
+
+            <!-- Profile Menu -->
+            <div class="profile-menu">
+                <button class="profile-button" (click)="toggleProfileMenu()" [attr.aria-expanded]="isProfileMenuOpen()"
+                    aria-label="Profile menu">
+                    <div class="avatar-container">
+                        @if (userService.currentUserProfile()?.profileImage) {
+                        <img [src]="userService.currentUserProfile()?.profileImage" alt="Profile" class="avatar-img">
+                        } @else {
+                        <span class="avatar-placeholder">👤</span>
+                        }
+                    </div>
+                    <span class="username">{{ userService.currentUserProfile()?.fullName || 'User' }}</span>
+                    <lucide-icon name="chevron-down" size="14" class="dropdown-icon"></lucide-icon>
+                </button>
+
+                @if (isProfileMenuOpen()) {
+                <div class="dropdown-menu" role="menu">
+
+                    <a routerLink="/profile" class="menu-item" role="menuitem" (click)="isProfileMenuOpen.set(false)">
+                        <span class="menu-icon">✏️</span>
+                        <span>Edit Profile</span>
+                    </a>
+                    <button (click)="signOut()" class="menu-item menu-item-signout" role="menuitem">
+                        <span class="menu-icon">🚪</span>
+                        <span>Sign Out</span>
+                    </button>
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Navigation Menu -->
+    @if (isMobileNavOpen()) {
+    <nav class="mobile-nav">
+        <ul class="mobile-nav-list">
+            <li>
+                <a routerLink="/dashboard" routerLinkActive="active" class="mobile-nav-item" (click)="closeMobileNav()">
+                    <lucide-icon name="layout-dashboard" size="20"></lucide-icon>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a routerLink="/transactions" routerLinkActive="active" class="mobile-nav-item"
+                    (click)="closeMobileNav()">
+                    <lucide-icon name="arrow-left-right" size="20"></lucide-icon>
+                    <span>Transactions</span>
+                </a>
+            </li>
+            <li>
+                <a routerLink="/summary" routerLinkActive="active" class="mobile-nav-item" (click)="closeMobileNav()">
+                    <lucide-icon name="pie-chart" size="20"></lucide-icon>
+                    <span>Summary</span>
+                </a>
+            </li>
+            <li>
+                <a routerLink="/payment-modes" routerLinkActive="active" class="mobile-nav-item"
+                    (click)="closeMobileNav()">
+                    <lucide-icon name="credit-card" size="20"></lucide-icon>
+                    <span>Payment Modes</span>
+                </a>
+            </li>
+            <li>
+                <a routerLink="/about" routerLinkActive="active" class="mobile-nav-item" (click)="closeMobileNav()">
+                    <lucide-icon name="info" size="20"></lucide-icon>
+                    <span>About</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    }
+</header>

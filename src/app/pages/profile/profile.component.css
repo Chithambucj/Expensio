@@ -1,0 +1,233 @@
+.profile-main {
+    padding: 2.5rem 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.profile-header-main {
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.header-text h2 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--color-text);
+    letter-spacing: -0.02em;
+}
+
+.header-text .subtitle {
+    margin-top: 0.25rem;
+    color: var(--color-text-dim);
+    font-size: 1rem;
+}
+
+.premium-card {
+    background: #ffffff;
+    border-radius: 24px;
+    box-shadow: 0 20px 50px rgba(112, 144, 176, 0.15);
+    padding: 3rem;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+.card-section-header {
+    margin-bottom: 2.5rem;
+}
+
+.card-section-header h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.card-section-header p {
+    font-size: 0.9rem;
+    color: var(--color-text-dim);
+}
+
+.avatar-upload-section {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    margin-bottom: 3.5rem;
+    padding: 2.5rem;
+    background: var(--color-primary-light);
+    border-radius: 20px;
+    position: relative;
+}
+
+.avatar-preview-container {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    border-radius: 40px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 10px 25px rgba(67, 24, 255, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 5px solid #fff;
+}
+
+.avatar-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.avatar-preview-container:hover .avatar-preview {
+    transform: scale(1.05);
+}
+
+.avatar-placeholder {
+    font-size: 4rem;
+    color: var(--color-primary);
+}
+
+.upload-controls {
+    flex: 1;
+}
+
+.upload-btn {
+    background: #fff;
+    color: var(--color-primary);
+    border: 2px solid var(--color-primary);
+    padding: 0.85rem 1.75rem;
+    border-radius: 14px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 12px rgba(67, 24, 255, 0.1);
+}
+
+.upload-btn:hover {
+    background: var(--color-primary);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(67, 24, 255, 0.2);
+}
+
+.upload-hint {
+    margin-top: 0.75rem;
+    font-size: 0.85rem;
+    color: var(--color-text-dim);
+    font-weight: 500;
+}
+
+.profile-form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.form-group label {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-text);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.form-input {
+    width: 100%;
+    height: 54px;
+    padding: 0 1.25rem;
+    border-radius: 16px;
+    border: 2px solid var(--color-border);
+    font-size: 1rem;
+    background: var(--color-bg);
+    transition: all 0.2s ease;
+    color: var(--color-text);
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(67, 24, 255, 0.1);
+}
+
+.form-input.disabled {
+    background: #f1f5f9;
+    color: var(--color-text-dim);
+    cursor: not-allowed;
+    border-color: transparent;
+}
+
+.input-icon-right {
+    position: absolute;
+    right: 1.25rem;
+    color: var(--color-text-dim);
+}
+
+.premium-btn {
+    height: 56px;
+    padding: 0 2.5rem;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    border-radius: 18px;
+    box-shadow: 0 10px 25px rgba(67, 24, 255, 0.25);
+}
+
+.alert {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.25rem;
+    border-radius: 16px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.alert-success {
+    background: rgba(5, 205, 153, 0.1);
+    color: #05cd99;
+}
+
+.alert-error {
+    background: rgba(238, 93, 80, 0.1);
+    color: #ee5d50;
+}
+
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .avatar-upload-section {
+        flex-direction: column;
+        text-align: center;
+        gap: 2rem;
+        padding: 2rem;
+    }
+
+    .premium-card {
+        padding: 2rem;
+    }
+}

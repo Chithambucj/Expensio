@@ -1,0 +1,110 @@
+<div class="animate-fade-in">
+    <header class="page-header">
+        <div class="greeting-section">
+            <h1 class="greeting-text">Hi, {{ userService.currentUserProfile()?.fullName || 'User' }} 👋</h1>
+            <p class="greeting-subtext">Track your all expense and transactions</p>
+        </div>
+        <div class="static-date-display">
+            <span class="calendar-icon">📅</span>
+            <span class="current-date">{{ currentMonthRange }}</span>
+        </div>
+    </header>
+
+    <!-- Premium Stats Cards -->
+    <!-- Premium Stats Cards (Two Columns) -->
+    <div class="stats-grid-premium two-columns">
+        <!-- Card 1: Total Expense Comparison -->
+        <div class="card premium-card expense-card">
+            <div class="card-title">Total Expense</div>
+            <div class="expense-content">
+                <div class="expense-values">
+                    <div class="expense-msg">Spent is <span [class.text-danger]="percentageChange() > 0"
+                            [class.text-success]="percentageChange() <= 0">{{ percentageChange() | number:'1.0-0' }}% {{
+                            percentageChange() > 0 ? 'More' : 'Less' }}</span> than last Month</div>
+                </div>
+                <div class="expense-main-value">{{ currentMonthSpend() | currency:'INR':'symbol':'1.0-0' }}</div>
+
+                <div class="semi-gauge-wrapper">
+                    <svg viewBox="0 0 100 50" class="semi-circular-chart">
+                        <path class="semi-circle-bg" d="M10 50 A 40 40 0 0 1 90 50" fill="none" />
+                        <path class="semi-circle"
+                            [attr.stroke-dasharray]="(percentageChange() > 100 ? 100 : (percentageChange() < 0 ? 0 : percentageChange())) + ', 100'"
+                            d="M10 50 A 40 40 0 0 1 90 50" fill="none" />
+                        <text x="50" y="45" class="semi-percentage">{{ percentageChange() | number:'1.0-0' }}%</text>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 2: Total Transactions Count -->
+        <div class="card premium-card count-card">
+            <div class="card-title">Total Transactions</div>
+            <div class="count-content">
+                <div class="count-value">{{ currentMonthCount() }}</div>
+                <div class="count-label">Transactions this Month</div>
+                <div class="icon-wrapper-large">
+                    <lucide-icon name="receipt" size="64"></lucide-icon>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="dashboard-grid">
+        <!-- Total Expenses Donut Chart -->
+        <div class="card chart-card-large">
+            <div class="card-header">
+                <h3>Total Expenses</h3>
+                <span class="date-range">{{ toDate(selectedRange.startDate) | date:'dd/MM/yyyy' }} - {{
+                    toDate(selectedRange.endDate) | date:'dd/MM/yyyy' }}</span>
+            </div>
+
+            <div class="donut-layout">
+                <div class="canvas-wrapper">
+                    <canvas baseChart [data]="donutChartData()" [type]="'doughnut'" [options]="donutChartOptions">
+                    </canvas>
+                </div>
+                <!-- Custom Legend Mock (since chart.js legend is sometimes tricky to style exactly like mock) -->
+                <div class="custom-legend">
+                    <div class="legend-item" *ngFor="let item of expenseCategories()">
+                        <span class="dot" [style.background-color]="item.color"></span>
+                        <span class="l-name">{{item.label}}</span>
+                        <span class="l-value">{{item.value | currency:'INR':'symbol':'1.0-0'}}</span>
+                        <span class="l-pct">{{item.pct | number:'1.0-2'}}%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Charts Row -->
+        <div class="card chart-card-small">
+            <h3>Account - Total Spent</h3>
+            <div class="mini-chart">
+                <canvas baseChart [data]="lineChartData()" [type]="'line'" [options]="lineChartOptions">
+                </canvas>
+            </div>
+        </div>
+
+        <div class="card chart-card-small">
+            <div class="card-header-flex">
+                <h3>Expense History</h3>
+                <div class="header-controls">
+                    <select class="category-select" [ngModel]="selectedCategory()"
+                        (ngModelChange)="selectedCategory.set($event)">
+                        <option *ngFor="let cat of availableCategories()" [value]="cat">{{ cat }}</option>
+                    </select>
+                    <select class="category-select timeframe-select" [ngModel]="expenseHistoryTimeframe()"
+                        (ngModelChange)="setExpenseHistoryTimeframe($event)">
+                        <option value="weekly">Weekly</option>
+                        <option value="monthly">Monthly</option>
+                        <option value="yearly">Yearly</option>
+                    </select>
+                </div>
+            </div>
+            <div class="mini-chart">
+                <canvas baseChart [data]="barChartData()" [type]="'bar'" [options]="barChartOptions">
+                </canvas>
+            </div>
+        </div>
+    </div>
+</div>

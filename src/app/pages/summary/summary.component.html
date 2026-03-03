@@ -1,0 +1,169 @@
+<div class="layout-wrapper animate-fade-in">
+    <main class="summary-main">
+        <div class="top-nav-info">
+            <span class="breadcrumb">Summary Report</span>
+        </div>
+
+        <div class="summary-header">
+            <div class="view-toggles">
+                <button [class.active]="viewMode() === 'monthly'" (click)="viewMode.set('monthly')">Monthly
+                    Report</button>
+                <button [class.active]="viewMode() === 'yearly'" (click)="viewMode.set('yearly')">Yearly Report</button>
+            </div>
+
+            <div class="header-actions">
+                <div class="year-selector" *ngIf="viewMode() === 'monthly'">
+                    <button (click)="changeYear(-1)"><lucide-icon name="chevron-left" size="18"></lucide-icon></button>
+                    <span class="year-display">{{selectedYear()}}</span>
+                    <button (click)="changeYear(1)"><lucide-icon name="chevron-right" size="18"></lucide-icon></button>
+                </div>
+
+                <button class="btn-filter-trigger" (click)="toggleFilterPopup()">
+                    <lucide-icon name="sliders-horizontal" size="18"></lucide-icon>
+                    <span>Filters</span>
+                </button>
+
+                <button class="btn-export-trigger" (click)="downloadPDF()">
+                    <lucide-icon name="file-text" size="18"></lucide-icon>
+                    <span>Download PDF</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="report-container shadow-sm" *ngIf="viewMode() === 'monthly'">
+            <div class="table-scroll-wrapper">
+                <table class="summary-table monthly-grid">
+                    <thead>
+                        <tr>
+                            <th class="month-col">Month</th>
+                            <th *ngFor="let cat of categories()" (click)="toggleSort(cat)" class="sortable-header">
+                                <div class="header-content">
+                                    <span>{{cat}}</span>
+                                    <div class="sort-icon-wrapper">
+                                        <lucide-icon name="chevron-up" size="14"
+                                            *ngIf="sortColumn() === cat && sortDirection() === 'asc'"></lucide-icon>
+                                        <lucide-icon name="chevron-down" size="14"
+                                            *ngIf="sortColumn() === cat && sortDirection() === 'desc'"></lucide-icon>
+                                    </div>
+                                </div>
+                            </th>
+                            <th class="total-col">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let row of monthlySummary()">
+                            <td class="month-cell">{{row.month}}</td>
+                            <td *ngFor="let cat of categories()" [class.zero]="getCategoryTotal(row.totals, cat) === 0">
+                                {{ getCategoryTotal(row.totals, cat) | number:'1.0-0' }}
+                            </td>
+                            <td class="total-cell">{{row.total | number:'1.0-0'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="report-container shadow-sm" *ngIf="viewMode() === 'yearly'">
+            <div class="table-scroll-wrapper">
+                <table class="summary-table yearly-grid">
+                    <thead>
+                        <tr>
+                            <th>Year</th>
+                            <th *ngFor="let cat of categories()" (click)="toggleSort(cat)" class="sortable-header">
+                                <div class="header-content">
+                                    <span>{{cat}}</span>
+                                    <div class="sort-icon-wrapper">
+                                        <lucide-icon name="chevron-up" size="14"
+                                            *ngIf="sortColumn() === cat && sortDirection() === 'asc'"></lucide-icon>
+                                        <lucide-icon name="chevron-down" size="14"
+                                            *ngIf="sortColumn() === cat && sortDirection() === 'desc'"></lucide-icon>
+                                    </div>
+                                </div>
+                            </th>
+                            <th class="total-col">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let row of yearlySummary()">
+                            <td class="year-cell">{{row.year}}</td>
+                            <td *ngFor="let cat of categories()" [class.zero]="getCategoryTotal(row.totals, cat) === 0">
+                                {{ getCategoryTotal(row.totals, cat) | number:'1.0-0' }}
+                            </td>
+                            <td class="total-cell">{{row.total | number:'1.0-0'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Filter Sidebar -->
+    <div class="filter-overlay" *ngIf="isFilterOpen()" (click)="closeFilterPopup()">
+        <aside class="filters-sidebar" (click)="$event.stopPropagation()">
+            <div class="sidebar-header">
+                <h3>Filters</h3>
+                <button class="close-btn" (click)="closeFilterPopup()">
+                    <lucide-icon name="x" size="24"></lucide-icon>
+                </button>
+            </div>
+
+            <div class="filter-body-scroll">
+                <div class="filter-section">
+                    <label class="section-label">CATEGORIES</label>
+                    <div class="checkbox-list">
+                        <label *ngFor="let cat of categories()" class="checkbox-label">
+                            <input type="checkbox" [checked]="isFilterSelected(selectedCategoryFilters, cat)"
+                                (change)="toggleFilter(selectedCategoryFilters, cat)">
+                            <span class="box-circle blue"></span>
+                            <span class="label-text">{{cat}}</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <label class="section-label">CASHFLOW</label>
+                    <div class="checkbox-row-compact">
+                        <label class="checkbox-label">
+                            <input type="checkbox" [checked]="isFilterSelected(selectedTypeFilters, 'expense')"
+                                (change)="toggleFilter(selectedTypeFilters, 'expense')">
+                            <span class="box-circle red"></span>
+                            <span class="label-text">Expense</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <label class="section-label">PAYMENT MODE</label>
+                    <div class="checkbox-list">
+                        <label class="checkbox-label" *ngFor="let mode of paymentModes()">
+                            <input type="checkbox" [checked]="isFilterSelected(selectedPaymentFilters, mode)"
+                                (change)="toggleFilter(selectedPaymentFilters, mode)">
+                            <span class="box-circle orange"></span>
+                            <span class="label-text">{{mode}}</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <label class="section-label">AMOUNT</label>
+                    <div class="amount-range-grid">
+                        <div class="field">
+                            <span class="field-label">MIN :</span>
+                            <input type="number" [ngModel]="minAmount()" (ngModelChange)="minAmount.set($event)"
+                                name="minAmount" placeholder="" class="amount-input-box">
+                        </div>
+                        <div class="field">
+                            <span class="field-label">MAX :</span>
+                            <input type="number" [ngModel]="maxAmount()" (ngModelChange)="maxAmount.set($event)"
+                                name="maxAmount" placeholder="" class="amount-input-box">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="filter-footer">
+                <button class="btn-apply-filters" (click)="closeFilterPopup()">Apply Filters</button>
+            </div>
+        </aside>
+    </div>
+</div>

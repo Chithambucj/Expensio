@@ -1,0 +1,545 @@
+.layout-wrapper {
+    padding: 16px;
+    background: var(--color-bg);
+    min-height: calc(100vh - 60px);
+    animation: fadeIn 0.6s ease-out;
+}
+
+.payment-modes-main {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.top-nav-info {
+    margin-bottom: 24px;
+}
+
+.breadcrumb {
+    font-size: 12px;
+    color: var(--color-text-dim);
+    font-weight: 600;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    gap: 20px;
+}
+
+h1 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--color-text);
+    margin: 0;
+}
+
+.modes-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-bottom: 40px;
+}
+
+.mode-card {
+    position: relative;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 18px;
+    padding: 16px;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    box-shadow: 14px 17px 40px 4px rgba(112, 144, 176, 0.05);
+}
+
+.mode-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 14px 17px 40px 4px rgba(112, 144, 176, 0.12);
+    border-color: rgba(67, 24, 255, 0.2);
+}
+
+.card-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+/* Subtle accent colors matching Summary/Transactions */
+.mode-card.credit_card {
+    border-left: 6px solid #4318ff;
+}
+
+.mode-card.debit_card {
+    border-left: 6px solid #05cd99;
+}
+
+.mode-card.upi {
+    border-left: 6px solid #ffce20;
+}
+
+.mode-card.cash {
+    border-left: 6px solid #ee5d50;
+}
+
+.mode-card.other {
+    border-left: 6px solid #a3aed0;
+}
+
+.icon-params {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.mode-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    transition: all 0.3s ease;
+}
+
+.mode-card.credit_card .mode-icon {
+    color: #4318ff;
+}
+
+.mode-card.debit_card .mode-icon {
+    color: #05cd99;
+}
+
+.mode-card.upi .mode-icon {
+    color: #ffce20;
+}
+
+.mode-card.cash .mode-icon {
+    color: #ee5d50;
+}
+
+.mode-card.other .mode-icon {
+    color: #a3aed0;
+}
+
+.mode-card:hover .mode-icon {
+    transform: scale(1.05);
+    border-color: var(--color-primary);
+}
+
+.mode-details h3 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-text);
+}
+
+.mode-type {
+    display: block;
+    margin-top: 2px;
+    font-size: 11px;
+    color: var(--color-text-dim);
+    text-transform: capitalize;
+}
+
+.mode-actions {
+    display: flex;
+    gap: 8px;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.mode-card:hover .mode-actions {
+    opacity: 1;
+}
+
+.icon-btn {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-dim);
+    cursor: pointer;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.icon-btn:hover {
+    background: var(--color-bg);
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
+
+.icon-btn.delete:hover {
+    background: rgba(255, 59, 48, 0.1);
+    border-color: #ee5d50;
+    color: #ee5d50;
+}
+
+/* High Contrast Modal */
+/* Usage Report Styling */
+.usage-section {
+    margin-top: 40px;
+}
+
+.section-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-text);
+    padding-left: 12px;
+    border-left: 4px solid #f09b4e;
+    margin: 0;
+}
+
+.section-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.date-range-filter {
+    position: relative;
+    cursor: pointer;
+    background: white;
+    border: 1px solid #fff3d6;
+    border-radius: 20px;
+    padding: 8px 20px;
+    box-shadow: 0 4px 12px rgba(240, 155, 78, 0.08);
+    transition: all 0.3s ease;
+    min-width: 250px;
+}
+
+.filter-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.date-range-filter:hover {
+    box-shadow: 0 6px 16px rgba(240, 155, 78, 0.15);
+    transform: translateY(-1px);
+}
+
+.filter-trigger {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.calendar-icon-wrapper {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.calendar-img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+
+.range-text {
+    font-size: 15px;
+    font-weight: 600;
+    color: #4b4b4b;
+}
+
+.usage-table-container {
+    background: var(--color-surface);
+    border-radius: 30px;
+    padding: 10px;
+}
+
+.tx-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.tx-table th {
+    padding: 20px 15px;
+    background: var(--color-bg) !important;
+    color: var(--color-text);
+    font-weight: 500;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+    border-bottom: 2px solid var(--color-border);
+}
+
+.sortable-header {
+    cursor: pointer;
+    transition: background-color 0.2s;
+    user-select: none;
+}
+
+.sortable-header:hover {
+    background-color: var(--color-surface) !important;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.sort-icon-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 14px;
+    min-width: 14px;
+}
+
+.tx-table td {
+    padding: 16px 15px;
+    text-align: center;
+    font-weight: 600;
+    color: var(--color-text);
+    font-size: 13px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.mode-cell {
+    text-align: left !important;
+    padding-left: 30px !important;
+}
+
+.amount-cell {
+    text-align: right !important;
+    padding-right: 30px !important;
+}
+
+.percentage-cell {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 150px;
+    margin: 0 auto;
+}
+
+.progress-bar {
+    flex: 1;
+    height: 8px;
+    background: var(--color-bg);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #4318ff, #7349ff);
+    border-radius: 4px;
+}
+
+.usage-percentage {
+    font-weight: 600;
+    color: var(--color-text-dim);
+    min-width: 50px;
+    text-align: right;
+    font-size: 12px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Modal Overlay & Content */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3000;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.modal-content {
+    background: var(--color-surface);
+    width: 400px;
+    border-radius: 24px;
+    padding: 30px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+    animation: scaleUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes scaleUp {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.modal-header h3 {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--color-text);
+    margin: 0;
+}
+
+.close-btn {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    width: 38px;
+    height: 38px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--color-text);
+    transition: all 0.2s;
+}
+
+.close-btn:hover {
+    background: var(--color-bg);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--color-text-dim);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+}
+
+.form-input {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--color-border);
+    background: var(--color-bg);
+    font-weight: 600;
+    color: var(--color-text);
+    font-size: 13px;
+    transition: all 0.2s;
+    outline: none;
+}
+
+.form-input:focus {
+    background: var(--color-surface);
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 4px rgba(67, 24, 255, 0.1);
+}
+
+.select-wrapper {
+    position: relative;
+}
+
+.select-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: var(--color-text-dim);
+}
+
+.modal-footer {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.btn {
+    flex: 1;
+    padding: 12px;
+    border-radius: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    font-size: 13px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s;
+}
+
+.btn-primary {
+    background: var(--color-primary);
+    color: white !important;
+}
+
+.btn-primary:hover {
+    background: #3311cc;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 15px rgba(67, 24, 255, 0.2);
+}
+
+.btn-outline {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-dim);
+}
+
+.btn-outline:hover {
+    background: var(--color-bg);
+}
+
+/* Tablets */
+@media (min-width: 768px) {
+    .layout-wrapper {
+        padding: 24px;
+    }
+
+    .modes-grid {
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    }
+
+    .percentage-cell {
+        width: 250px;
+    }
+}

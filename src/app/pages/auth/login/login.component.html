@@ -1,0 +1,63 @@
+<div class="auth-container">
+    <div class="auth-card">
+        <!-- Left Side: Branding -->
+        <div class="auth-branding">
+            <div class="stars-overlay"></div>
+            <div class="branding-content">
+                <div class="logo-circle">
+                    <lucide-icon name="indian-rupee" size="64"></lucide-icon>
+                </div>
+                <h1>Expensio</h1>
+                <p>Personal finance, simplified.</p>
+            </div>
+            <div class="wave-decoration"></div>
+        </div>
+
+        <!-- Right Side: Form -->
+        <div class="auth-form-side">
+            <div class="form-header">
+                <h2>Welcome Back</h2>
+                <p>Join thousands of users managing their wealth.</p>
+            </div>
+
+            <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <div class="input-wrapper">
+                        <lucide-icon name="mail" size="20" class="icon"></lucide-icon>
+                        <input type="email" id="email" name="email" [(ngModel)]="email"
+                            placeholder="e.g. alex@example.com" required email>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-wrapper">
+                        <lucide-icon name="lock" size="20" class="icon"></lucide-icon>
+                        <input type="password" id="password" name="password" [(ngModel)]="password"
+                            placeholder="Enter your password" required>
+                    </div>
+                </div>
+
+                <div class="forgot-link">
+                    <a routerLink="/auth/forgot-password">Forgot Password?</a>
+                </div>
+
+                <div class="error-msg" *ngIf="error">
+                    <lucide-icon name="alert-circle" size="18"
+                        style="margin-right: 8px; vertical-align: middle;"></lucide-icon>
+                    <span>{{error}}</span>
+                </div>
+
+                <button type="submit" class="btn-signin" [disabled]="!loginForm.valid || loading">
+                    <span *ngIf="!loading">Sign In</span>
+                    <span *ngIf="loading" class="spinner"></span>
+                </button>
+
+                <div class="form-footer">
+                    <a routerLink="/auth/register">Don't have an account? <strong>Create one</strong></a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,45 @@
+#######################################
+# Angular / Frontend
+#######################################
+dist/
+tmp/
+out-tsc/
+bazel-out/
+node_modules/
+.angular/
+coverage/
+npm-debug.log
+yarn-error.log
+
+#######################################
+# Spring Boot / Java Backend
+#######################################
+backend/target/
+target/
+*.class
+*.jar
+*.war
+*.log
+
+#######################################
+# Environment / Secrets
+#######################################
+.env
+backend/src/main/resources/application.properties
+backend/src/main/resources/application.yml
+
+#######################################
+# IDEs
+#######################################
+.vscode/
+.idea/
+*.iml
+.project
+.classpath
+.settings/
+
+#######################################
+# OS
+#######################################
+.DS_Store
+Thumbs.db

@@ -1,0 +1,549 @@
+.page-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.greeting-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.greeting-text {
+    font-size: 1.2rem;
+    color: var(--color-text);
+    font-weight: 500;
+}
+
+.greeting-subtext {
+    font-size: 0.85rem;
+    color: var(--color-text-dim);
+    font-weight: 400;
+}
+
+.static-date-display {
+    background: var(--color-surface, white);
+    padding: 0.6rem 1.2rem;
+    border-radius: 12px;
+    font-size: 0.80rem;
+    color: var(--color-text);
+    box-shadow: 14px 17px 40px 4px rgba(112, 144, 176, 0.08);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    border: 1px solid var(--color-border);
+    backdrop-filter: blur(20px);
+}
+
+.current-date {
+    font-weight: 500;
+    color: var(--accent-blue, #656566);
+}
+
+.calendar-icon {
+    font-size: 1.1rem;
+}
+
+
+/* Stats Cards */
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    text-align: center;
+    padding: 2rem 1rem;
+}
+
+.stat-value {
+    font-size: 1.75rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.stat-label {
+    color: var(--color-text-dim);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.text-info {
+    color: #38bdf8;
+}
+
+/* Dashboard Main Grid */
+.dashboard-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.chart-card-large {
+    grid-column: 1 / -1;
+    /* Full width */
+    display: flex;
+    flex-direction: column;
+}
+
+.card-header h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+}
+
+.date-range {
+    font-size: 0.85rem;
+    color: var(--color-text-dim);
+}
+
+.donut-layout {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+
+.canvas-wrapper {
+    height: 250px;
+    width: 250px;
+}
+
+.custom-legend {
+    display: grid;
+    grid-template-columns: 20px 1fr auto auto;
+    row-gap: 0.75rem;
+    column-gap: 10px;
+    align-items: center;
+    min-width: 200px;
+    font-size: 0.9rem;
+    color: var(--color-text);
+}
+
+.legend-item {
+    display: contents;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.l-name {
+    color: var(--color-text);
+    font-weight: 500;
+}
+
+.l-value {
+    font-weight: 600;
+    text-align: right;
+}
+
+.l-pct {
+    color: var(--color-text-dim);
+    text-align: right;
+    min-width: 40px;
+}
+
+.chart-card-small {
+    min-height: 300px;
+}
+
+.mini-chart {
+    margin-top: 1rem;
+    height: 200px;
+}
+
+/* Timeframe Toggle Styles */
+.card-header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.category-select {
+    padding: 4px 8px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--color-text);
+    background: var(--color-surface, white);
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    outline: none;
+    cursor: pointer;
+}
+
+.category-select:focus {
+    border-color: var(--color-primary);
+}
+
+.timeframe-select {
+    color: var(--color-primary, #b026ff);
+    border: 1px solid #e2e8f0;
+    font-weight: 500;
+}
+
+.timeframe-select:focus {
+    border-color: var(--color-primary, #b026ff);
+    box-shadow: 0 0 0 2px rgba(176, 38, 255, 0.1);
+}
+
+/* Premium Stats Grid */
+.stats-grid-premium {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.premium-card {
+    background: var(--color-surface, white);
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.3s ease;
+}
+
+.premium-card:hover {
+    transform: translateY(-5px);
+}
+
+.card-title {
+    font-size: 1rem;
+    font-weight: 500;
+    opacity: 0.9;
+    z-index: 2;
+    color: inherit;
+}
+
+/* Card 1: Financial Health Score */
+.health-card {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    color: white;
+}
+
+.health-content {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.gauge-wrapper {
+    width: 100px;
+    height: 100px;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.circular-chart {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    max-height: 100%;
+    transform: rotate(0deg);
+    /* Start from top */
+}
+
+.circle-bg {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.1);
+    stroke-width: 2.5;
+}
+
+.circle {
+    fill: none;
+    stroke: #a855f7;
+    /* Purple accent */
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    transition: stroke-dasharray 1s ease-out;
+}
+
+.percentage {
+    fill: #fff;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 0.6rem;
+    text-anchor: middle;
+}
+
+.percentage-small {
+    fill: rgba(255, 255, 255, 0.6);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.25rem;
+    text-anchor: middle;
+}
+
+.health-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.health-msg {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+}
+
+.btn-improve {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    width: fit-content;
+    transition: background 0.2s;
+}
+
+.btn-improve:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.score-label {
+    margin-top: auto;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Card 2: Total Expense */
+.expense-card {
+    /* No background gradient */
+    color: var(--color-text);
+}
+
+.expense-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    position: relative;
+}
+
+.expense-values {
+    margin-top: 0.5rem;
+    z-index: 2;
+}
+
+.expense-msg {
+    font-size: 0.85rem;
+    opacity: 0.9;
+    max-width: 70%;
+    line-height: 1.4;
+    color: var(--color-text-dim);
+}
+
+.expense-main-value {
+    font-size: 2rem;
+    font-weight: 600;
+    text-align: right;
+    margin-top: 1rem;
+    z-index: 2;
+    color: var(--color-primary);
+}
+
+.semi-gauge-wrapper {
+    position: absolute;
+    bottom: 15px;
+    left: 1.5rem;
+    width: 140px;
+    height: 70px;
+    opacity: 0.8;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.semi-circular-chart {
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.semi-circle-bg {
+    fill: none;
+    stroke: var(--color-border);
+    /* Use border color for track */
+    stroke-width: 8;
+}
+
+.semi-circle {
+    fill: none;
+    stroke: var(--color-primary);
+    stroke-width: 8;
+    stroke-linecap: round;
+    transition: stroke-dasharray 1s ease-out;
+}
+
+.semi-percentage {
+    fill: var(--color-text);
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    text-anchor: middle;
+}
+
+/* Card 3: Daily Average */
+.daily-card {
+    background: var(--color-surface);
+    /* Adaptive */
+    color: var(--color-text) !important;
+    border: 1px solid var(--color-border);
+}
+
+.daily-card .card-title {
+    color: var(--color-text-dim);
+}
+
+.daily-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    position: relative;
+    padding: 1rem 0;
+}
+
+.daily-value {
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--color-text);
+    z-index: 2;
+}
+
+.daily-label {
+    font-size: 0.9rem;
+    color: var(--color-text-dim);
+    z-index: 2;
+}
+
+.trend-icon-wrapper {
+    position: absolute;
+    bottom: -10px;
+    right: -10px;
+    opacity: 0.1;
+    z-index: 1;
+}
+
+.trend-up {
+    color: #ef4444;
+    /* Red */
+}
+
+.trend-down {
+    color: #10b981;
+    /* Green */
+}
+
+/* Tablets */
+@media (min-width: 768px) {
+    .page-header {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .date-picker-wrapper,
+    .date-picker-input {
+        width: auto;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* Laptops */
+@media (min-width: 992px) {
+    .stats-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .stats-grid-premium {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Two Column Layout Override */
+.stats-grid-premium.two-columns {
+    grid-template-columns: 1fr;
+}
+
+/* Tablets overrides for two-column */
+@media (min-width: 768px) {
+    .stats-grid-premium.two-columns {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Card: Total Transactions Count */
+.count-card {
+    /* No background gradient */
+    color: var(--color-text);
+}
+
+/* Let's actually use a nice Blue-ish one to contrast with Purple Expense */
+
+
+.count-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    position: relative;
+    z-index: 2;
+}
+
+.count-value {
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+    color: var(--color-primary);
+}
+
+.count-label {
+    font-size: 1rem;
+    opacity: 0.9;
+    font-weight: 500;
+    color: var(--color-text-dim);
+}
+
+.icon-wrapper-large {
+    position: absolute;
+    right: -10px;
+    bottom: -10px;
+    opacity: 0.1;
+    color: var(--color-primary);
+    transform: rotate(-15deg);
+    pointer-events: none;
+}

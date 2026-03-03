@@ -1,0 +1,195 @@
+/* Global Variables */
+:root {
+  /* Premium Light Theme */
+  --color-bg: #f5f7fa;
+  --color-surface: #585858;
+
+  --color-primary: #4318ff;
+  /* Royal Blue */
+  --color-primary-light: #eff4fb;
+
+  --color-text: #2b3674;
+  /* Dark Navy */
+  --color-text-dim: #a3aed0;
+  /* Gray Lavender */
+
+  --color-success: #05cd99;
+  --color-danger: #ee5d50;
+  --color-warning: #ffce20;
+
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+
+  --shadow-card: 0px 18px 40px rgba(112, 144, 176, 0.12);
+  --border-radius: 20px;
+  --color-border: #e2e8f0;
+
+  --font-family: 'Inter', sans-serif;
+  /* Example premium font pairing */
+}
+
+/* Reset & Base */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Typography */
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+/* Layout Utilities */
+.layout-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  padding: 1rem;
+  margin-left: 0;
+  transition: margin-left 0.3s ease;
+  width: 100%;
+}
+
+/* Tablets */
+@media (min-width: 768px) {
+  .main-content {
+    margin-left: 80px;
+    width: calc(100% - 80px);
+    padding: 1.5rem;
+  }
+}
+
+/* Laptops */
+@media (min-width: 992px) {
+  .main-content {
+    margin-left: 280px;
+    width: calc(100% - 280px);
+    padding: 2rem;
+  }
+}
+
+/* Component Utilities */
+.card {
+  background: var(--color-surface);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-card);
+  padding: 1.5rem;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #3311db;
+  box-shadow: 0 4px 12px rgba(67, 24, 255, 0.3);
+}
+
+.text-success {
+  color: var(--color-success);
+}
+
+.text-danger {
+  color: var(--color-danger);
+}
+
+.text-primary {
+  color: var(--color-primary);
+}
+
+/* Animation Utils */
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Date Range Picker Overrides */
+.md-drppicker {
+  font-family: var(--font-family) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+  border: none !important;
+  border-radius: 12px !important;
+  margin-top: 12px !important;
+  padding: 0 !important;
+  width: auto !important;
+}
+
+.md-drppicker .ranges ul li {
+  font-size: 14px !important;
+  padding: 10px 20px !important;
+  color: var(--color-text) !important;
+}
+
+.md-drppicker .ranges ul li:hover {
+  background-color: var(--color-primary-light) !important;
+  color: var(--color-primary) !important;
+}
+
+.md-drppicker .ranges ul li.active {
+  background-color: var(--color-primary) !important;
+  color: white !important;
+}
+
+.md-drppicker td.active,
+.md-drppicker td.active:hover {
+  background-color: var(--color-primary) !important;
+}
+
+.md-drppicker td.in-range {
+  background-color: var(--color-primary-light) !important;
+  color: var(--color-text) !important;
+}
+
+.md-drppicker .calendar-table {
+  background-color: #fff !important;
+  padding: 10px !important;
+}
+
+.md-drppicker .btn {
+  box-shadow: none !important;
+}
+
+.md-drppicker .btn:hover {
+  box-shadow: none !important;
+}

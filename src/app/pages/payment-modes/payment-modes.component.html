@@ -1,0 +1,160 @@
+<div class="layout-wrapper animate-fade-in">
+    <main class="payment-modes-main">
+        <div class="top-nav-info">
+            <span class="breadcrumb">Payment Modes</span>
+        </div>
+
+        <div class="header">
+            <h1>Payment Modes</h1>
+            <button class="btn btn-add" (click)="openAddModal()">
+                <lucide-icon name="plus" size="18"></lucide-icon> ADD NEW MODE
+            </button>
+        </div>
+
+        <div class="modes-grid">
+            <div class="mode-card" *ngFor="let mode of paymentModes()" [ngClass]="mode.type">
+                <div class="card-content">
+                    <div class="icon-params">
+                        <div class="mode-icon">
+                            <lucide-icon [name]="mode.type === 'credit_card' ? 'credit-card' :
+                                               mode.type === 'debit_card' ? 'credit-card' :
+                                               mode.type === 'upi' ? 'qr-code' :
+                                               mode.type === 'cash' ? 'banknote' : 'wallet'" size="24"></lucide-icon>
+                        </div>
+                        <div class="mode-details">
+                            <h3>{{ mode.name }}</h3>
+                            <span class="mode-type">{{ mode.type.replace('_', ' ') }}</span>
+                        </div>
+                    </div>
+                    <div class="mode-actions">
+                        <button class="icon-btn edit" (click)="openEditModal(mode)" title="Edit">
+                            <lucide-icon name="pencil" size="16"></lucide-icon>
+                        </button>
+                        <button class="icon-btn delete" (click)="deletePaymentMode(mode.id!)" title="Delete">
+                            <lucide-icon name="trash-2" size="16"></lucide-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Usage Report Section -->
+        <div class="usage-section animate-fade-in" *ngIf="paymentModeUsage().length > 0">
+            <div class="section-header-row">
+                <h2 class="section-title">Payment Mode Usage Overview</h2>
+
+                <div class="date-range-filter">
+                    <input type="text" ngxDaterangepickerMd [ranges]="ranges" [ngModel]="filterRange()"
+                        (ngModelChange)="filterRange.set($event)" [showCustomRangeLabel]="true"
+                        [alwaysShowCalendars]="true" class="filter-input" readonly>
+                    <div class="filter-trigger">
+                        <div class="calendar-icon-wrapper">
+                            <img src="assets/icons/calendar-icon.png" alt="Calendar" class="calendar-img"
+                                onerror="this.src='https://cdn-icons-png.flaticon.com/512/3652/3652191.png'">
+                        </div>
+                        <span class="range-text">
+                            {{ toDate(filterRange().startDate) | date:'dd/MM/yyyy' }} - {{
+                            toDate(filterRange().endDate) | date:'dd/MM/yyyy' }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="usage-table-container shadow-sm">
+                <table class="usage-table tx-table">
+                    <thead>
+                        <tr>
+                            <th (click)="toggleSort('mode')" class="sortable-header">
+                                <div class="header-content">
+                                    <span>Payment Mode</span>
+                                    <div class="sort-icon-wrapper">
+                                        <lucide-icon name="chevron-up" size="14"
+                                            *ngIf="sortColumn() === 'mode' && sortDirection() === 'asc'"></lucide-icon>
+                                        <lucide-icon name="chevron-down" size="14"
+                                            *ngIf="sortColumn() === 'mode' && sortDirection() === 'desc'"></lucide-icon>
+                                    </div>
+                                </div>
+                            </th>
+                            <th (click)="toggleSort('amount')" class="sortable-header text-right">
+                                <div class="header-content justify-content-end">
+                                    <span>Amount Spent</span>
+                                    <div class="sort-icon-wrapper">
+                                        <lucide-icon name="chevron-up" size="14"
+                                            *ngIf="sortColumn() === 'amount' && sortDirection() === 'asc'"></lucide-icon>
+                                        <lucide-icon name="chevron-down" size="14"
+                                            *ngIf="sortColumn() === 'amount' && sortDirection() === 'desc'"></lucide-icon>
+                                    </div>
+                                </div>
+                            </th>
+                            <th (click)="toggleSort('percentage')" class="sortable-header">
+                                <div class="header-content">
+                                    <span>Spending Distribution</span>
+                                    <div class="sort-icon-wrapper">
+                                        <lucide-icon name="chevron-up" size="14"
+                                            *ngIf="sortColumn() === 'percentage' && sortDirection() === 'asc'"></lucide-icon>
+                                        <lucide-icon name="chevron-down" size="14"
+                                            *ngIf="sortColumn() === 'percentage' && sortDirection() === 'desc'"></lucide-icon>
+                                    </div>
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let usage of paymentModeUsage()">
+                            <td class="mode-cell">
+                                <span class="usage-mode-name">{{usage.mode}}</span>
+                            </td>
+                            <td class="text-right font-bold amount-cell">{{usage.amount |
+                                currency:'INR':'symbol':'1.0-0'}}</td>
+                            <td class="percentage-cell">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" [style.width.%]="usage.percentage"></div>
+                                </div>
+                                <span class="usage-percentage">{{usage.percentage | number:'1.0-1'}}%</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal-overlay" *ngIf="isModalOpen()" (click)="closeModal()">
+            <div class="modal-content" (click)="$event.stopPropagation()">
+                <div class="modal-header">
+                    <h3>{{ editingMode() ? 'Edit Payment Mode' : 'Add New Payment Mode' }}</h3>
+                    <button class="close-btn" (click)="closeModal()">
+                        <lucide-icon name="x" size="20"></lucide-icon>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" [(ngModel)]="currentMode.name" placeholder="e.g. HDFC Credit Card" autofocus
+                            class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label>Type</label>
+                        <div class="select-wrapper">
+                            <select [(ngModel)]="currentMode.type" class="form-input">
+                                <option value="" disabled selected>Select Type</option>
+                                <option value="credit_card">Credit Card</option>
+                                <option value="debit_card">Debit Card</option>
+                                <option value="upi">UPI</option>
+                                <option value="cash">Cash</option>
+                                <option value="other">Other</option>
+                            </select>
+                            <lucide-icon name="chevron-down" size="16" class="select-icon"></lucide-icon>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-outline" (click)="closeModal()">CANCEL</button>
+                    <button class="btn btn-primary" (click)="savePaymentMode()">
+                        {{ editingMode() ? 'SAVE CHANGES' : 'ADD MODE' }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>

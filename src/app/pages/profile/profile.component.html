@@ -1,0 +1,104 @@
+<div class="layout-wrapper animate-fade-in">
+    <main class="profile-main">
+        <div class="top-nav-info">
+            <span class="breadcrumb">Profile Settings</span>
+        </div>
+
+        <div class="profile-body-wrapper">
+            <div class="profile-header-main">
+                <div class="header-text">
+                    <h2>Profile Settings</h2>
+                    <p class="subtitle">Manage your account information and preferences</p>
+                </div>
+            </div>
+
+            <div class="profile-card premium-card">
+                <div class="card-section-header">
+                    <h3>Personal Information</h3>
+                    <p>Update your profile details and photo</p>
+                </div>
+
+                <div class="profile-body">
+                    <div class="avatar-upload-section">
+                        <div class="avatar-preview-container">
+                            @if (profileData.profileImage) {
+                            <img [src]="profileData.profileImage" alt="Avatar Preview" class="avatar-preview">
+                            } @else {
+                            <div class="avatar-placeholder">👤</div>
+                            }
+
+                            @if (isUploading()) {
+                            <div class="upload-overlay">
+                                <div class="spinner"></div>
+                            </div>
+                            }
+                        </div>
+
+                        <div class="upload-controls">
+                            <label class="btn btn-outline upload-btn">
+                                <lucide-icon name="camera" size="18" class="mr-2"></lucide-icon>
+                                UPLOAD NEW PHOTO
+                                <input type="file" (change)="onFileSelected($event)" accept="image/*"
+                                    class="file-input">
+                            </label>
+                            <p class="upload-hint">JPG, GIF or PNG. Max size of 800K</p>
+                        </div>
+                    </div>
+
+                    <form (ngSubmit)="onSubmit()" class="profile-form">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="email">
+                                    <lucide-icon name="mail" size="16"></lucide-icon>
+                                    Email Address
+                                </label>
+                                <div class="input-wrapper">
+                                    <input type="email" id="email" [value]="profileData.email" disabled
+                                        class="form-input disabled">
+                                    <lucide-icon name="lock" size="16" class="input-icon-right"></lucide-icon>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="fullName">
+                                    <lucide-icon name="user" size="16"></lucide-icon>
+                                    Full Name
+                                </label>
+                                <div class="input-wrapper">
+                                    <input type="text" id="fullName" [(ngModel)]="profileData.fullName" name="fullName"
+                                        placeholder="Enter your full name" class="form-input">
+                                </div>
+                            </div>
+                        </div>
+
+                        @if (saveSuccess()) {
+                        <div class="alert alert-success">
+                            <lucide-icon name="check-circle" size="18"></lucide-icon>
+                            <span>Profile updated! Changes are reflected instantly across the app.</span>
+                        </div>
+                        }
+                        @if (saveError()) {
+                        <div class="alert alert-error">
+                            <lucide-icon name="alert-circle" size="18"></lucide-icon>
+                            <span>Failed to update profile. Please try again.</span>
+                        </div>
+                        }
+
+                        <div class="form-footer">
+                            <button type="submit" class="btn btn-primary premium-btn"
+                                [disabled]="isSaving() || isUploading()">
+                                @if (isSaving()) {
+                                <div class="spinner spinner-small"></div>
+                                <span>SAVING...</span>
+                                } @else {
+                                <lucide-icon name="save" size="18"></lucide-icon>
+                                <span>SAVE CHANGES</span>
+                                }
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
