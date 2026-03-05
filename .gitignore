@@ -24,7 +24,7 @@ target/
 #######################################
 # Environment / Secrets
 #######################################
-.env
+.env.example
 backend/src/main/resources/application.properties
 backend/src/main/resources/application.yml
 
