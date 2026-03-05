@@ -5,10 +5,12 @@ services:
     container_name: expense-mysql
     restart: always
     environment:
-      MYSQL_DATABASE: expense_db
+      MYSQL_DATABASE: expensio
+      MYSQL_USER: expensio_user
+      MYSQL_PASSWORD: expensio_pass
       MYSQL_ROOT_PASSWORD: root_password
     ports:
-      - "3306:3306"
+      - "3309:3306"
     volumes:
       - mysql_data:/var/lib/mysql
 

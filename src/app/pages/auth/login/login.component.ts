@@ -18,8 +18,13 @@ export class LoginComponent {
 
     email = '';
     password = '';
+    showPassword = false;
     error = '';
     loading = false;
+
+    togglePasswordVisibility() {
+        this.showPassword = !this.showPassword;
+    }
 
     onSubmit() {
         this.loading = true;

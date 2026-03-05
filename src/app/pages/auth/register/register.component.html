@@ -43,8 +43,11 @@
                     <label for="password">Password</label>
                     <div class="input-wrapper">
                         <lucide-icon name="lock" size="20" class="icon"></lucide-icon>
-                        <input type="password" id="password" name="password" [(ngModel)]="password"
-                            placeholder="At least 6 characters" required minlength="6">
+                        <input [type]="showPassword ? 'text' : 'password'" id="password" name="password"
+                            [(ngModel)]="password" placeholder="" required minlength="6">
+                        <button type="button" class="toggle-password" (click)="togglePasswordVisibility()">
+                            <lucide-icon [name]="showPassword ? 'eye-off' : 'eye'" size="20"></lucide-icon>
+                        </button>
                     </div>
                 </div>
 
@@ -52,8 +55,11 @@
                     <label for="confirmPassword">Confirm Password</label>
                     <div class="input-wrapper">
                         <lucide-icon name="lock" size="20" class="icon"></lucide-icon>
-                        <input type="password" id="confirmPassword" name="confirmPassword" [(ngModel)]="confirmPassword"
-                            placeholder="Repeat your password" required>
+                        <input [type]="showConfirmPassword ? 'text' : 'password'" id="confirmPassword"
+                            name="confirmPassword" [(ngModel)]="confirmPassword" placeholder="" required>
+                        <button type="button" class="toggle-password" (click)="toggleConfirmPasswordVisibility()">
+                            <lucide-icon [name]="showConfirmPassword ? 'eye-off' : 'eye'" size="20"></lucide-icon>
+                        </button>
                     </div>
                 </div>
 
@@ -69,7 +75,7 @@
                 </button>
 
                 <div class="form-footer">
-                    <a routerLink="/auth/login">Already have an account? <strong>Sign In</strong></a>
+                    <a routerLink="/login">Already have an account? <strong>Sign In</strong></a>
                 </div>
             </form>
         </div>

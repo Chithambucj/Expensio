@@ -73,7 +73,7 @@ export class AuthService {
         this.transactionService.clearData();
         this.paymentModeService.clearData();
         this.userService.clearProfile();
-        this.router.navigate(['/auth/login']);
+        this.router.navigate(['/login']);
     }
 
     getToken(): string | null {

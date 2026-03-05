@@ -20,8 +20,18 @@ export class RegisterComponent {
     password = '';
     confirmPassword = '';
     mobileNumber = '+91 ';
+    showPassword = false;
+    showConfirmPassword = false;
     error = '';
     loading = false;
+
+    togglePasswordVisibility() {
+        this.showPassword = !this.showPassword;
+    }
+
+    toggleConfirmPasswordVisibility() {
+        this.showConfirmPassword = !this.showConfirmPassword;
+    }
 
     onSubmit() {
         if (this.password !== this.confirmPassword) {

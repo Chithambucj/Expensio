@@ -21,8 +21,18 @@ export class ResetPasswordComponent implements OnInit {
     newPassword = '';
     confirmPassword = '';
     isSubmitting = signal(false);
+    showNewPassword = signal(false);
+    showConfirmPassword = signal(false);
     message = signal('');
     isError = signal(false);
+
+    toggleNewPasswordVisibility() {
+        this.showNewPassword.update(v => !v);
+    }
+
+    toggleConfirmPasswordVisibility() {
+        this.showConfirmPassword.update(v => !v);
+    }
 
     ngOnInit() {
         this.token = this.route.snapshot.queryParamMap.get('token') || '';
@@ -49,7 +59,7 @@ export class ResetPasswordComponent implements OnInit {
                 this.message.set('Password has been reset successfully! Redirecting to login...');
                 this.isError.set(false);
                 this.isSubmitting.set(false);
-                setTimeout(() => this.router.navigate(['/auth/login']), 2000);
+                setTimeout(() => this.router.navigate(['/login']), 2000);
             },
             error: (err) => {
                 this.message.set(err.error?.message || 'Failed to reset password');

@@ -144,6 +144,37 @@ h4 {
   }
 }
 
+/* Password Toggle Style */
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9ca3af;
+  transition: all 0.2s;
+  z-index: 5;
+}
+
+.toggle-password:hover {
+  color: var(--color-primary);
+  transform: scale(1.1);
+}
+
+.toggle-password lucide-icon {
+  display: block;
+}
+
 /* Date Range Picker Overrides */
 .md-drppicker {
   font-family: var(--font-family) !important;
