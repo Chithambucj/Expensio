@@ -25,8 +25,6 @@ target/
 # Environment / Secrets
 #######################################
 .env
-backend/src/main/resources/application.properties
-backend/src/main/resources/application.yml
 
 #######################################
 # IDEs
