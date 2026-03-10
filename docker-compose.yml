@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  db:
+  mysql:
     image: mysql:8.0
     container_name: expense-mysql
     restart: always
@@ -24,12 +24,9 @@ services:
     ports:
       - "8081:8080"
     env_file:
-      - ./backend/.env
-    environment:
-      # Override the DB_URL from .env to use the internal docker network host and port
-      - DB_URL=jdbc:mysql://db:3306/expensio?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      - .env
     depends_on:
-      - db
+      - mysql
 
   frontend:
     build:
