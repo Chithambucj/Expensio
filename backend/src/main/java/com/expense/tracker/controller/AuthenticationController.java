@@ -36,13 +36,6 @@ public class AuthenticationController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/verify-otp")
-    public ResponseEntity<com.expense.tracker.dto.VerifyOtpResponse> verifyOtp(
-            @RequestBody com.expense.tracker.dto.VerifyOtpRequest request) {
-        String token = service.verifyOtp(request.getMobileNumber(), request.getOtp());
-        return ResponseEntity.ok(com.expense.tracker.dto.VerifyOtpResponse.builder().token(token).build());
-    }
-
     @PostMapping("/reset-password")
     public ResponseEntity<Void> resetPassword(@RequestBody ResetPasswordRequest request) {
         service.resetPassword(request.getToken(), request.getNewPassword());

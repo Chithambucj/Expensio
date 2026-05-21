@@ -38,18 +38,16 @@ public class User implements UserDetails {
 
     private String fullName;
 
-    @Lob
-    @Column(columnDefinition = "LONGTEXT")
+    @Column(columnDefinition = "TEXT")
     private String profileImage;
 
     private String mobileNumber;
-    @ToString.Exclude
-    private String otp;
-    private java.time.LocalDateTime otpExpiry;
-
+    
     @ToString.Exclude
     private String resetToken;
+    
     private java.time.LocalDateTime resetTokenExpiry;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

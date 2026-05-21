@@ -7,7 +7,6 @@ import com.expense.tracker.model.Role;
 import com.expense.tracker.model.User;
 import com.expense.tracker.repository.UserRepository;
 import com.expense.tracker.service.EmailService;
-import com.expense.tracker.service.SmsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,16 +27,20 @@ public class AuthenticationService {
         private final JwtService jwtService;
         private final AuthenticationManager authenticationManager;
         private final EmailService emailService;
-        private final SmsService smsService;
 
         public AuthenticationResponse register(RegisterRequest request) {
+                String sanitizedMobile = sanitizeMobileNumber(request.getMobileNumber());
                 if (userRepository.existsByEmail(request.getEmail())) {
                         throw new RuntimeException("Email already in use");
                 }
+                if (userRepository.existsByMobileNumber(sanitizedMobile)) {
+                        throw new RuntimeException("Mobile number already in use");
+                }
                 var user = User.builder()
+                                .fullName(request.getFullName())
                                 .email(request.getEmail())
                                 .password(passwordEncoder.encode(request.getPassword()))
-                                .mobileNumber(request.getMobileNumber())
+                                .mobileNumber(sanitizedMobile)
                                 .role(Role.USER)
                                 .build();
                 userRepository.save(user);
@@ -48,14 +51,12 @@ public class AuthenticationService {
         }
 
         public AuthenticationResponse authenticate(AuthenticationRequest request) {
-                // ... (existing code omitted for brevity but should be kept if replacing the
-                // whole block)
                 authenticationManager.authenticate(
                                 new UsernamePasswordAuthenticationToken(
                                                 request.getEmail(),
                                                 request.getPassword()));
                 var user = userRepository.findByEmail(request.getEmail())
-                                .orElseThrow();
+                                .orElseThrow(() -> new RuntimeException("User not found"));
                 var jwtToken = jwtService.generateToken(user);
                 return AuthenticationResponse.builder()
                                 .token(jwtToken)
@@ -73,41 +74,9 @@ public class AuthenticationService {
                                 String resetLink = "http://localhost:4200/auth/reset-password?token=" + token;
                                 emailService.sendPasswordResetEmail(user.getEmail(), resetLink);
                         });
-                } else if (mobileNumber != null && !mobileNumber.isEmpty()) {
-                        userRepository.findByMobileNumber(mobileNumber).ifPresent(user -> {
-                                SecureRandom secureRandom = new SecureRandom();
-                                String otp = String.format("%06d", secureRandom.nextInt(1000000));
-                                user.setOtp(otp);
-                                user.setOtpExpiry(LocalDateTime.now().plusMinutes(10));
-                                userRepository.save(user);
-
-                                smsService.sendOtp(mobileNumber, otp);
-                        });
                 }
         }
 
-        public String verifyOtp(String mobileNumber, String otp) {
-                User user = userRepository.findByMobileNumber(mobileNumber)
-                                .orElseThrow(() -> new RuntimeException("User not found"));
-
-                if (user.getOtp() == null || !user.getOtp().equals(otp)) {
-                        throw new RuntimeException("Invalid OTP");
-                }
-
-                if (user.getOtpExpiry().isBefore(LocalDateTime.now())) {
-                        throw new RuntimeException("OTP has expired");
-                }
-
-                // If valid, generate a reset token and clear OTP
-                String token = UUID.randomUUID().toString();
-                user.setResetToken(token);
-                user.setResetTokenExpiry(LocalDateTime.now().plusMinutes(30));
-                user.setOtp(null);
-                user.setOtpExpiry(null);
-                userRepository.save(user);
-
-                return token;
-        }
 
         public void resetPassword(String token, String newPassword) {
                 User user = userRepository.findByResetToken(token)
@@ -121,5 +90,12 @@ public class AuthenticationService {
                 user.setResetToken(null);
                 user.setResetTokenExpiry(null);
                 userRepository.save(user);
+        }
+
+        private String sanitizeMobileNumber(String mobileNumber) {
+                if (mobileNumber == null) {
+                        return null;
+                }
+                return mobileNumber.replaceAll("[^\\d]", "");
         }
 }

@@ -59,13 +59,11 @@ export class AuthService {
         return this.http.post(`${this.apiUrl}/forgot-password`, data);
     }
 
-    verifyOtp(mobileNumber: string, otp: string) {
-        return this.http.post<{ token: string }>(`${this.apiUrl}/verify-otp`, { mobileNumber, otp });
-    }
 
     resetPassword(data: any) {
         return this.http.post(`${this.apiUrl}/reset-password`, data);
     }
+
 
     logout() {
         localStorage.removeItem('token');

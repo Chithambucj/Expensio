@@ -16,6 +16,7 @@ export class RegisterComponent {
     authService = inject(AuthService);
     router = inject(Router);
 
+    fullName = '';
     email = '';
     password = '';
     confirmPassword = '';
@@ -42,7 +43,12 @@ export class RegisterComponent {
         this.loading = true;
         this.error = '';
 
-        this.authService.register({ email: this.email, password: this.password, mobileNumber: this.mobileNumber }).subscribe({
+        this.authService.register({
+            fullName: this.fullName,
+            email: this.email,
+            password: this.password,
+            mobileNumber: this.mobileNumber
+        }).subscribe({
             next: () => {
                 this.router.navigate(['/dashboard']);
             },

@@ -22,6 +22,15 @@
 
             <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
                 <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <div class="input-wrapper">
+                        <lucide-icon name="user" size="20" class="icon"></lucide-icon>
+                        <input type="text" id="fullName" name="fullName" [(ngModel)]="fullName"
+                            placeholder="e.g. Alex Johnson" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
                     <label for="email">Email Address</label>
                     <div class="input-wrapper">
                         <lucide-icon name="mail" size="20" class="icon"></lucide-icon>
