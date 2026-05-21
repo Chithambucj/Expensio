@@ -2,6 +2,7 @@ import { Injectable, signal, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { PaymentMode } from '../models/payment-mode.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
     providedIn: 'root'

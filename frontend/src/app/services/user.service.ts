@@ -1,6 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface UserProfile {
     email: string;
@@ -15,7 +16,7 @@ const PROFILE_CACHE_KEY = 'userProfile';
 })
 export class UserService {
     private http = inject(HttpClient);
-    private apiUrl = '/api/profile';
+    private apiUrl = `${environment.apiUrl}/api/profile`;
 
     // Initialize from localStorage cache for zero-flash on refresh
     currentUserProfile = signal<UserProfile | null>(this.loadFromCache());

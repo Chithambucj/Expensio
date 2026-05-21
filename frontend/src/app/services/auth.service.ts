@@ -5,7 +5,7 @@ import { tap } from 'rxjs';
 import { TransactionService } from './transaction.service';
 import { PaymentModeService } from './payment-mode.service';
 import { UserService } from './user.service';
-
+import { environment } from '../../environments/environment';
 export interface AuthResponse {
     token: string;
 }
@@ -19,7 +19,7 @@ export class AuthService {
     private transactionService = inject(TransactionService);
     private paymentModeService = inject(PaymentModeService);
     private userService = inject(UserService);
-    private apiUrl = '/api/auth';
+    private apiUrl = `${environment.apiUrl}/api/auth`;
 
     isAuthenticated = signal<boolean>(!!localStorage.getItem('token'));
 

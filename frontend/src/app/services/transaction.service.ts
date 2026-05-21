@@ -2,13 +2,13 @@ import { Injectable, signal, computed, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Transaction } from '../models/transaction.model';
 import { tap } from 'rxjs';
-
+import { environment } from '../../environments/environment';
 @Injectable({
     providedIn: 'root'
 })
 export class TransactionService {
     private http = inject(HttpClient);
-    private apiUrl = '/api/transactions';
+    private apiUrl = `${environment.apiUrl}/api/transactions`;
 
     // Core Signal
     private transactionsSignal = signal<Transaction[]>([]);
