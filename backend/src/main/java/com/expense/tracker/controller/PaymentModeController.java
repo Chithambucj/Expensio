@@ -10,7 +10,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/payment-modes")
-@CrossOrigin(origins = "http://localhost:4200") // Allow Angular app
 public class PaymentModeController {
 
     @Autowired
