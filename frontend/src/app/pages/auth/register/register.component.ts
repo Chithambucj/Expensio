@@ -54,7 +54,7 @@ export class RegisterComponent {
                 if (err.status === 0) {
                     this.error = 'Cannot connect to server. Please check if backend is running.';
                 } else {
-                    this.error = 'Registration failed. Email might already be in use or server error.';
+                    this.error = err.error?.message || 'Registration failed. Please try again.';
                 }
                 this.loading = false;
             }

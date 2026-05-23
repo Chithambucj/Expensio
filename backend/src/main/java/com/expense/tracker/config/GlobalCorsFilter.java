@@ -7,7 +7,11 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
+
 @Component
+@Order(Ordered.HIGHEST_PRECEDENCE)
 public class GlobalCorsFilter implements Filter {
 
     @Override
@@ -23,10 +27,12 @@ public class GlobalCorsFilter implements Filter {
         HttpServletRequest req =
                 (HttpServletRequest) request;
 
-        res.setHeader(
-                "Access-Control-Allow-Origin",
-                "https://expensio-tracking.netlify.app"
-        );
+        String origin = req.getHeader("Origin");
+        if (origin != null && (origin.equals("http://localhost:4200") || origin.equals("https://expensio-tracking.netlify.app"))) {
+            res.setHeader("Access-Control-Allow-Origin", origin);
+        } else {
+            res.setHeader("Access-Control-Allow-Origin", "https://expensio-tracking.netlify.app");
+        }
 
         res.setHeader(
                 "Access-Control-Allow-Methods",

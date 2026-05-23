@@ -669,7 +669,8 @@ export class TransactionsComponent implements OnInit {
       },
       error: (err) => {
         console.error('Upload failed', err);
-        alert('Import failed: ' + (err.error || err.message));
+        const errorMsg = err.error?.message || (typeof err.error === 'string' ? err.error : err.message);
+        alert('Import failed: ' + errorMsg);
         if (this.fileInput) {
           this.fileInput.nativeElement.value = '';
         }
