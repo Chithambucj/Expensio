@@ -478,6 +478,12 @@ h1 {
     position: relative;
 }
 
+.select-wrapper select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
 .select-icon {
     position: absolute;
     right: 12px;

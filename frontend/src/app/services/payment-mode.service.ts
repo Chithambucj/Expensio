@@ -9,7 +9,7 @@ import { environment } from '../../environments/environment';
 })
 export class PaymentModeService {
     private http = inject(HttpClient);
-    private apiUrl = '/api/payment-modes';
+    private apiUrl = `${environment.apiUrl}/api/payment-modes`;
 
     private paymentModesSignal = signal<PaymentMode[]>([]);
     paymentModes = this.paymentModesSignal.asReadonly();
