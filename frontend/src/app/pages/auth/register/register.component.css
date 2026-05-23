@@ -329,25 +329,47 @@
     .auth-container {
         padding: 0;
         background: white;
-    }
-
-    .auth-branding {
-        display: none;
+        height: auto;
+        min-height: 100vh;
+        overflow-y: auto;
     }
 
     .auth-card {
         width: 100%;
         max-width: none;
-        height: 100vh;
+        height: auto;
+        min-height: 100vh;
         border-radius: 0;
         box-shadow: none;
         background: white;
         border: none;
+        flex-direction: column;
+    }
+
+    .auth-branding {
+        flex: 0 0 auto;
+        padding: 40px 20px;
+        min-height: 280px;
+    }
+
+    .logo-circle {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 20px;
+    }
+
+    .branding-content h1 {
+        font-size: 36px;
+    }
+
+    .branding-content p {
+        font-size: 16px;
     }
 
     .auth-form-side {
         padding: 40px 24px;
         width: 100%;
+        flex: 1 0 auto;
     }
 
     .form-header h2 {

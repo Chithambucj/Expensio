@@ -39,7 +39,8 @@ import {
   User,
   Eye,
   EyeOff,
-  AlertCircle
+  AlertCircle,
+  CheckCircle
 } from 'lucide-angular';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 
@@ -55,7 +56,7 @@ export const appConfig: ApplicationConfig = {
       IndianRupee, Wallet, LayoutDashboard, ArrowLeftRight, Info,
       Search, Trash2, Plus, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight,
       SlidersHorizontal, Calendar, X, ShoppingBag, Car, Home, Shirt, GraduationCap, DollarSign, Circle, PieChart,
-      Receipt, Pencil, CreditCard, QrCode, Banknote, ChevronDown, Lock, Mail, User, Eye, EyeOff, AlertCircle
+      Receipt, Pencil, CreditCard, QrCode, Banknote, ChevronDown, Lock, Mail, User, Eye, EyeOff, AlertCircle, CheckCircle
     })),
     importProvidersFrom(NgxDaterangepickerMd.forRoot())
   ]

@@ -65,7 +65,7 @@ public class AuthenticationService {
                                 user.setResetTokenExpiry(LocalDateTime.now().plusMinutes(30));
                                 userRepository.save(user);
 
-                                String resetLink = "http://localhost:4200/auth/reset-password?token=" + token;
+                                String resetLink = "https://expensio-tracking.netlify.app/auth/reset-password?token=" + token;
                                 emailService.sendPasswordResetEmail(user.getEmail(), resetLink);
                         });
                 }
