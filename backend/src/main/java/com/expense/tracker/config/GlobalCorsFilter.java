@@ -28,7 +28,7 @@ public class GlobalCorsFilter implements Filter {
                 (HttpServletRequest) request;
 
         String origin = req.getHeader("Origin");
-        if (origin != null && (origin.equals("http://localhost:4200") || origin.equals("https://expensio-tracking.netlify.app"))) {
+        if (origin != null && (origin.equals("http://localhost:4200") || origin.endsWith("netlify.app"))) {
             res.setHeader("Access-Control-Allow-Origin", origin);
         } else {
             res.setHeader("Access-Control-Allow-Origin", "https://expensio-tracking.netlify.app");

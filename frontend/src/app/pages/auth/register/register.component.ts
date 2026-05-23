@@ -54,7 +54,15 @@ export class RegisterComponent {
                 if (err.status === 0) {
                     this.error = 'Cannot connect to server. Please check if backend is running.';
                 } else {
-                    this.error = err.error?.message || 'Registration failed. Please try again.';
+                    let errMsg = 'Registration failed. Please try again.';
+                    if (err.error) {
+                        if (typeof err.error === 'string') errMsg = err.error;
+                        else if (err.error.message) errMsg = err.error.message;
+                        else errMsg = JSON.stringify(err.error);
+                    } else if (err.message) {
+                        errMsg = err.message;
+                    }
+                    this.error = errMsg;
                 }
                 this.loading = false;
             }
