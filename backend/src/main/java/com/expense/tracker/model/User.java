@@ -41,8 +41,7 @@ public class User implements UserDetails {
     @Column(columnDefinition = "TEXT")
     private String profileImage;
 
-    private String mobileNumber;
-    
+
     @ToString.Exclude
     private String resetToken;
     

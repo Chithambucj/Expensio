@@ -55,7 +55,7 @@ export class AuthService {
         );
     }
 
-    forgotPassword(data: { email?: string, mobileNumber?: string }) {
+    forgotPassword(data: { email?: string }) {
         return this.http.post(`${this.apiUrl}/forgot-password`, data);
     }
 

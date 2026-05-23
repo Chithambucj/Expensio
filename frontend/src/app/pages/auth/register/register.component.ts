@@ -20,7 +20,6 @@ export class RegisterComponent {
     email = '';
     password = '';
     confirmPassword = '';
-    mobileNumber = '+91 ';
     showPassword = false;
     showConfirmPassword = false;
     error = '';
@@ -46,8 +45,7 @@ export class RegisterComponent {
         this.authService.register({
             fullName: this.fullName,
             email: this.email,
-            password: this.password,
-            mobileNumber: this.mobileNumber
+            password: this.password
         }).subscribe({
             next: () => {
                 this.router.navigate(['/dashboard']);

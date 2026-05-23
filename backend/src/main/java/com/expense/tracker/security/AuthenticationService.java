@@ -27,20 +27,14 @@ public class AuthenticationService {
         private final JwtService jwtService;
         private final AuthenticationManager authenticationManager;
         private final EmailService emailService;
-
         public AuthenticationResponse register(RegisterRequest request) {
-                String sanitizedMobile = sanitizeMobileNumber(request.getMobileNumber());
                 if (userRepository.existsByEmail(request.getEmail())) {
                         throw new RuntimeException("Email already in use");
-                }
-                if (userRepository.existsByMobileNumber(sanitizedMobile)) {
-                        throw new RuntimeException("Mobile number already in use");
                 }
                 var user = User.builder()
                                 .fullName(request.getFullName())
                                 .email(request.getEmail())
                                 .password(passwordEncoder.encode(request.getPassword()))
-                                .mobileNumber(sanitizedMobile)
                                 .role(Role.USER)
                                 .build();
                 userRepository.save(user);
@@ -63,7 +57,7 @@ public class AuthenticationService {
                                 .build();
         }
 
-        public void forgotPassword(String email, String mobileNumber) {
+        public void forgotPassword(String email) {
                 if (email != null && !email.isEmpty()) {
                         userRepository.findByEmail(email).ifPresent(user -> {
                                 String token = UUID.randomUUID().toString();
@@ -92,10 +86,5 @@ public class AuthenticationService {
                 userRepository.save(user);
         }
 
-        private String sanitizeMobileNumber(String mobileNumber) {
-                if (mobileNumber == null) {
-                        return null;
-                }
-                return mobileNumber.replaceAll("[^\\d]", "");
-        }
+
 }
