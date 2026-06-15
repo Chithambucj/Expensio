@@ -1,11 +1,9 @@
-FROM maven:3.9.6-eclipse-temurin-21
+FROM eclipse-temurin:21-jre
 
 WORKDIR /app
 
-COPY . .
+COPY target/*.jar app.jar
 
-RUN mvn clean package -DskipTests
+EXPOSE 8084
 
-EXPOSE 8080
-
-CMD ["java", "-jar", "target/tracker-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java","-jar","app.jar"]
