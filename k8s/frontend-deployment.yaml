@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: expense-frontend
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: expense-frontend
+
+  template:
+    metadata:
+      labels:
+        app: expense-frontend
+
+    spec:
+      containers:
+      - name: expense-frontend
+        image: chithambu/expense-frontend:latest
+
+        ports:
+        - containerPort: 80

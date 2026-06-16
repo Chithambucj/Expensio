@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: backend
+
+spec:
+  selector:
+    app: expense-backend
+
+  ports:
+    - port: 8084
+      targetPort: 8084
+
+  type: ClusterIP

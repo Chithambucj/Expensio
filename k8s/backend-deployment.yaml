@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: expense-backend
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: expense-backend
+
+  template:
+    metadata:
+      labels:
+        app: expense-backend
+
+    spec:
+      containers:
+      - name: expense-backend
+        image: chithambu/expense-backend:latest
+
+        ports:
+        - containerPort: 8084
