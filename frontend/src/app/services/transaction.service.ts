@@ -36,17 +36,17 @@ export class TransactionService {
 
     addTransaction(description: string, amount: number, category: string, subCategory: string, categoryDetail: string, descriptionDetail: string, paymentMode: any, date: string) {
         const newTransaction: Transaction = {
-            id: crypto.randomUUID(),
-            description,
-            subCategory,
-            categoryDetail,
-            descriptionDetail,
-            amount,
-            category,
-            paymentMode,
-            date: date || new Date().toISOString(),
-            type: 'expense'
-        };
+    id: Date.now().toString(),
+    description,
+    subCategory,
+    categoryDetail,
+    descriptionDetail,
+    amount,
+    category,
+    paymentMode,
+    date: date || new Date().toISOString(),
+    type: 'expense'
+};
 
         return this.http.post<Transaction>(this.apiUrl, newTransaction).pipe(
             tap(() => {
