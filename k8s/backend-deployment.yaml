@@ -23,3 +23,8 @@ spec:
 
         ports:
         - containerPort: 8084
+
+        envFrom:
+        - secretRef:
+            name: expense-secret
+        
