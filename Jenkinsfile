@@ -70,12 +70,21 @@ pipeline {
             }
         }
 
+        stage('Deploy To Kubernetes') {
+            steps {
+                sh 'kubectl rollout restart deployment expense-backend'
+                sh 'kubectl rollout restart deployment expense-frontend'
+
+                sh 'kubectl rollout status deployment expense-backend'
+                sh 'kubectl rollout status deployment expense-frontend'
+            }
+        }
     }
 
     post {
 
         success {
-            echo 'Docker Images Successfully Pushed To Docker Hub'
+            echo 'Build, Push and Kubernetes Deployment Successful'
         }
 
         failure {
