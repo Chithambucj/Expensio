@@ -27,4 +27,3 @@ spec:
         envFrom:
         - secretRef:
             name: expense-secret
-        
