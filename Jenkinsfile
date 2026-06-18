@@ -1,7 +1,6 @@
 pipeline {
 agent any
 
-```
 environment {
     DOCKERHUB_USERNAME = 'chithambu'
     BACKEND_IMAGE = 'chithambu/expense-backend'
@@ -116,6 +115,5 @@ post {
 
     }
 }
-```
 
 }
