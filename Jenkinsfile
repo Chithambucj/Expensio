@@ -88,15 +88,16 @@ stages {
 
     stage('Deploy To Kubernetes') {
         steps {
-            sh '''
-            kubectl rollout restart deployment expense-backend
-            kubectl rollout restart deployment expense-frontend
+            sh """
+            kubectl set image deployment/expense-backend expense-backend=${BACKEND_IMAGE}:${BUILD_NUMBER}
+            kubectl set image deployment/expense-frontend expense-frontend=${FRONTEND_IMAGE}:${BUILD_NUMBER}
 
-            kubectl rollout status deployment expense-backend
-            kubectl rollout status deployment expense-frontend
-            '''
-        }
-    }
+            kubectl rollout status deployment/expense-backend
+            kubectl rollout status deployment/expense-frontend
+            """
+         }
+     }
+  
 }
 
 post {
