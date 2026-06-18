@@ -2,6 +2,7 @@ pipeline {
 agent any
 
 environment {
+    DOCKERHUB_USERNAME = 'chithambu'
     BACKEND_IMAGE = 'chithambu/expense-backend'
     FRONTEND_IMAGE = 'chithambu/expense-frontend'
 }
@@ -13,6 +14,7 @@ stages {
             dir('frontend') {
                 sh 'npm ci'
                 sh 'npm run build'
+
             }
         }
     }
@@ -21,6 +23,7 @@ stages {
         steps {
             dir('backend') {
                 sh 'mvn clean package -DskipTests'
+
             }
         }
     }
@@ -59,6 +62,7 @@ stages {
                 sh '''
                 echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
                 '''
+
             }
         }
     }
@@ -84,40 +88,40 @@ stages {
     stage('Deploy To Kubernetes') {
         steps {
             sh """
-            kubectl set image deployment/expense-backend \
+            kubectl set image deployment/expense-backend 
             expense-backend=${BACKEND_IMAGE}:${BUILD_NUMBER}
 
+            ```
             kubectl set image deployment/expense-frontend \
             expense-frontend=${FRONTEND_IMAGE}:${BUILD_NUMBER}
-
-            kubectl rollout status deployment/expense-backend
-            kubectl rollout status deployment/expense-frontend
             """
+
+            sh '''
+            kubectl rollout status deployment expense-backend
+            kubectl rollout status deployment expense-frontend
+            '''
         }
+
     }
+
 }
 
 post {
 
     success {
-        echo "================================="
-        echo "Build #${BUILD_NUMBER} SUCCESS"
-        echo "Backend Image : ${BACKEND_IMAGE}:${BUILD_NUMBER}"
-        echo "Frontend Image: ${FRONTEND_IMAGE}:${BUILD_NUMBER}"
-        echo "Kubernetes Deployment Completed"
-        echo "================================="
+        echo "Build #${BUILD_NUMBER} completed successfully"
+        echo "Docker images pushed to Docker Hub"
+        echo "Kubernetes deployment updated"
     }
 
     failure {
-        echo "================================="
         echo "Pipeline Failed"
-        echo "================================="
     }
 
     always {
         sh 'docker logout || true'
+
     }
 }
-
 
 }
