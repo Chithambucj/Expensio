@@ -3,6 +3,7 @@ kind: Service
 
 metadata:
   name: expense-frontend-service
+  namespace: dev
 
 spec:
   selector:
