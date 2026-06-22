@@ -3,6 +3,7 @@ kind: Deployment
 
 metadata:
   name: expense-backend
+  namespace: dev
 
 spec:
   replicas: 1
