@@ -86,6 +86,18 @@ export class DashboardComponent {
     return ((current - last) / last) * 100;
   });
 
+  absPercentageChange = computed(() => {
+    return Math.abs(this.percentageChange());
+  });
+
+  gaugePercentage = computed(() => {
+    const pct = this.percentageChange();
+    // For the gauge, if it's over 100%, cap it at 100. If negative, cap at 0.
+    if (pct > 100) return 100;
+    if (pct < 0) return 0;
+    return pct;
+  });
+
   currentMonthCount = computed(() => {
     const now = dayjs();
     return this.transactionService.transactions()

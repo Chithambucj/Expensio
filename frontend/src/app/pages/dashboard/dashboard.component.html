@@ -19,7 +19,7 @@
             <div class="expense-content">
                 <div class="expense-values">
                     <div class="expense-msg">Spent is <span [class.text-danger]="percentageChange() > 0"
-                            [class.text-success]="percentageChange() <= 0">{{ percentageChange() | number:'1.0-0' }}% {{
+                            [class.text-success]="percentageChange() <= 0">{{ absPercentageChange() | number:'1.0-0' }}% {{
                             percentageChange() > 0 ? 'More' : 'Less' }}</span> than last Month</div>
                 </div>
                 <div class="expense-main-value">{{ currentMonthSpend() | currency:'INR':'symbol':'1.0-0' }}</div>
@@ -27,10 +27,10 @@
                 <div class="semi-gauge-wrapper">
                     <svg viewBox="0 0 100 50" class="semi-circular-chart">
                         <path class="semi-circle-bg" d="M10 50 A 40 40 0 0 1 90 50" fill="none" />
-                        <path class="semi-circle"
-                            [attr.stroke-dasharray]="(percentageChange() > 100 ? 100 : (percentageChange() < 0 ? 0 : percentageChange())) + ', 100'"
+                        <path class="semi-circle" pathLength="100"
+                            [attr.stroke-dasharray]="gaugePercentage() + ', 100'"
                             d="M10 50 A 40 40 0 0 1 90 50" fill="none" />
-                        <text x="50" y="45" class="semi-percentage">{{ percentageChange() | number:'1.0-0' }}%</text>
+                        <text x="50" y="45" class="semi-percentage">{{ gaugePercentage() | number:'1.0-0' }}%</text>
                     </svg>
                 </div>
             </div>
