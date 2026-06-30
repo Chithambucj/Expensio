@@ -46,7 +46,7 @@ pipeline {
                     withSonarQubeEnv('SonarQube') {
                         sh '''
                         mvn sonar:sonar \
-                        -Dsonar.projectKey=expense-tracker \
+                        -Dsonar.projectKey=Expense-tracker \
                         -Dsonar.projectName="Expense Tracker"
                         '''
                     }
